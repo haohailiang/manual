@@ -1,6 +1,4 @@
 # canvas使用方法
-canvas手册
-## 手册地址
 [手册地址](https://developer.mozilla.org/zh-CN/docs/Web/API/CanvasRenderingContext2D)
 ## canvas API比较简单
 ```javascript
@@ -51,6 +49,7 @@ context.strokeRect(x, y, width, height);
 context.fillRect(x, y, width, height);
 ```
 ## 线段端点处样式
+index.html
 ```html
 <!DOCTYPE html>
 <html lang="en">
@@ -65,12 +64,12 @@ context.fillRect(x, y, width, height);
 </body>
 </html>
 ```
+lineCap.css
 ```css
-#lineCap.css
 .canvas{display: block;margin: 100px auto;border: 1px solid #aaa;}
 ```
+lineCap.js
 ```javascript
-#lineCap.js
 /*
  * 属性：lineCap
  * 属性值：butt(default)//一条平滑的边在线段的两边
