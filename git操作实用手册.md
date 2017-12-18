@@ -189,6 +189,9 @@ git branch -a
 git clone master分支
 git branch 远程分支名称
 git pull
+
+# checkout远程的dev分支，在本地起名为dev分支，并切换到本地的dev分支(一步到位的方法)
+git checkout -b dev origin/dev
 ```
 ## 搭建个人站点
 htts://haohailiang.github.io
