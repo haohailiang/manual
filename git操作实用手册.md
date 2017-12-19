@@ -193,6 +193,27 @@ git pull
 # checkout远程的dev分支，在本地起名为dev分支，并切换到本地的dev分支(一步到位的方法)
 git checkout -b dev origin/dev
 ```
+## 查看某个时间段内git日志
+```
+# 某个时间之后的日志
+git log --since="Tue Nov 28 2017 00:00:00 GMT+0800" 
+
+# 某个时间之前的日志
+git log --before="Sun Dec 03 2017 00:00:00 GMT+0800" 
+
+# 某个时间段内的日志
+git log --since="Tue Nov 28 2017 00:00:00 GMT+0800" --before="Sun Dec 03 2017 00:00:00 GMT+0800" 
+```
+## 某次提交的内容
+```
+git show commit-hashid
+git show 9b0ebe3c96bc2238ac84a6f322fbd64d2b169033
+```
+## 某个文件的提交历史
+```
+git log --pretty=oneline 文件名
+git log --pretty=oneline cloudsun-center/src/main/webapp/WEB-INF/views/center/usercenter/home.jsp 
+```
 ## 搭建个人站点
 htts://haohailiang.github.io
 ### 搭建步骤
