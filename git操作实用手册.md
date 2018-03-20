@@ -9,6 +9,11 @@ git config --global user.email "646263409@qq.com"
 ```
 git config --list
 ```
+## 查看用户名和邮箱地址
+```
+git config user.name
+git config user.email
+```
 ## 建立空的git库
 ```
 git init
