@@ -1,0 +1,1897 @@
+优点:
+解决精灵图合图
+
+▇SASS的安装
+https://www.ruby-lang.org/en/
+
+检查系统是否安装ruby[安装ruby以后才可以安装sass]
+ruby -v
+
+ruby版本管理器(rvm)(安装rvm以后才可以安装ruby)（高级用户使用的）
+https://rvm.io
+
+安装rvm
+brew install gpg2 （安装rvm之前需要安装这个）
+$ gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3
+
+Homebrew（一款包管理工具，使用homebrew可以很容易的获得一个更新的版本）
+/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+粘贴到terminal运行安装homebrew
+
+
+$ brew install ruby           //获得一个ruby的一个最新版本
+
+$ \curl -sSL https://get.rvm.io | bash -s stable
+注释：
+1.利用URL语法在命令行方式下工作的开源文件传输工具
+2.-s不显示下载进度和错误信息
+3.-S下载失败，显示错误信息
+4.当访问的URL地址返回302重定向head时，curl跟进到重定向后的地址，进行下载。
+
+安装成功后检测
+rvm list known
+注：列出所有的已知的rvm源
+
+rvm list
+注：列出本机的rvm环境
+
+rvm install 2.0.0
+安装2.0.0版本
+
+rvm use 2.0.0
+切换到这个版本
+
+rvm use --default 2.2.0
+指定默认版本
+
+rvm use system
+切回系统默认的
+
+参考：
+http://www.cnblogs.com/daguo/p/4097263.html
+
+gen源更换[防止国内墙的太厉害]
+gem sources  --remove https://rubygems.org/
+移除亚马逊的rubygems源
+
+gem sources -a https://ruby.taobao.org/
+
+gem sources -l
+列出现在的源列表
+
+gem install sass
+安装sass
+
+gem update sass
+更新sass到最新的版本
+
+sass -v
+sass版本号
+
+gem update
+更新ruby程序
+
+gem list
+查询本地的所有的包，其中包括刚才装的sass，括号中为包含的版本号，多个版本用逗号分隔开
+
+gem uninstall sass --version=3.3.0
+去掉指定的版本
+
+gem uninstall sass
+这样不加版本号就删除了sass的所有版本
+
+demo项目的建立
+1.创建一个项目文件目录
+2.进入到目录新建一个main.scss文件
+3.cmd执行如下命令：
+sass main.scss main.css
+会生成3个文件
+eg:
+haohailiangdeMacBook-Pro:learn-sass haohailiang$ ls -al
+total 24
+drwxr-xr-x  6 haohailiang  staff  204 11 30 11:06 .
+drwx------+ 7 haohailiang  staff  238 11 30 11:01 ..
+drwxr-xr-x  3 haohailiang  staff  102 11 30 11:06 .sass-cache
+-rw-r--r--  1 haohailiang  staff   71 11 30 11:06 main.css
+-rw-r--r--  1 haohailiang  staff  141 11 30 11:06 main.css.map
+-rw-r--r--  1 haohailiang  staff   33 11 30 11:02 main.scss
+
+窥探一下compass的官网
+http://compass-style.org
+
+compass优点：
+1.可重用
+2.精灵图合并
+3.漂亮的段落文本布局
+4.minxins函数使CSS3书写更容易
+5.周边生态丰富
+
+gem install compass
+安装compass
+
+compass -v
+
+compass create learn-compass
+用compass创建一个名称为learn-compass的项目
+
+sass compass的学习晋级网站
+Website: http://compass-style.org/
+Sass: http://sass-lang.com
+http://groups.google.com/group/compass-users/
+
+sass文件说明
+1.下划线开头的文件为局部文件，不能编译成css，但是可以被引入到其他的sass文件
+2.scss文件默认为utf-8,不用再头部重新书写这个属性
+
+编译方式有2种：
+1.手动编译
+compass compile [path/to/project]
+这种方式可以按需编译，可以指定特定的文件进行编译
+
+单文件编译
+sass <要编译的Sass文件路径>/style.scss:<要输出CSS文件路径>/style.css
+多文件编译
+sass sass/:css/
+将项目中“sass”文件夹中所有“.scss”(“.sass”)文件编译成“.css”文件，并且将这些 CSS 文件都放在项目中“css”文件夹中。
+实时编译
+sass --watch <要编译的Sass文件路径>/style.scss:<要输出CSS文件路径>/style.css
+
+2.自动编译
+compass watch [path/to/project]
+
+sass的编译方法有3种：
+命令编译
+GUI工具编译
+自动化编译
+
+图形化编译工具推荐：
+Koala (http://www.w3cplus.com/preprocessor/sass-gui-tool-koala.html) 
+CodeKit (http://www.w3cplus.com/preprocessor/sass-gui-tool-codekit.html)
+
+sass-convert main.scss main.sass
+.scss和.sass两种语法之间可以相互转换
+1,第一个文件为源文件
+2.第二个文件为目标文件
+
+变量语法：
+$headline_ff:'Microsoft Yahei';
+
+$headline_ff:'Microsoft Yahei';
+
+.ban{
+    font-family: $headline_ff;
+}
+
+带下划线的局部文件在被引入时可以不用下划线，要求带下划线文件的名字和不带下划线文件的名字不能相同
+
+CSS中原生的@import指令两大弊端：
+1.必须放在代码最前边
+2.对性能不利
+
+.scss中使用使用CSS原生@import的既定规则
+1.当@import后边跟的文件名是以.css结尾
+2.当@import后边跟的是http://开头的字符串
+3.当@import后边跟的是一个url()函数
+4.当@import后边带有media queries import等任何媒体查询
+
+基于sass的既定规则
+1.没有文件后缀名，sass会添加.scss或.sass后缀
+2.同一目录下，局部问价和非局部文件不能重名
+3.引入多个文件可以用逗号隔开
+
+@import "foo.scss";
+或
+@import "foo";
+
+@import "foo.css";
+@import "foo" screen;
+@import "http://foo.com/bar";
+@import url(foo);
+
+注释
+//注释类型一 command + /
+/*注释类型二*/  option+command+/
+
+变量操作：
+1.直接操作变量，即变量表达式
+2.通过函数
+2-1:
+跟代码块无关的函数，多是自己内置函数，称functions
+可重用的代码块，称mixin
+@include的方式调用
+@extend的方式调用
+
+cdc.tencent.com/?p=3760
+腾讯色值文章
+
+http://sass-lang.com/documentation/Sass/Script/Functions.html
+颜色函数文章
+
+IE6不支持多个类正交
+即:同一个标签上有多个类名时会出现错误
+
+父子标签的嵌套
+.ban{
+    font-family: $headline_ff;
+    h1{
+        font-size: 0;
+    }
+}
+
+output:
+.ban {
+  font-family: "Microsoft Yahei";
+}
+/* line 11, ../sass/screen.scss */
+.ban h1 {
+  font-size: 0;
+}
+
+利用上级标签
+a{
+    color: #fff;
+    &:hover{
+        color:red;
+        font:{
+            family:SimSun;
+            size:18px;
+        }
+    }
+}
+output:
+/* line 16, ../sass/screen.scss */
+a {
+  color: #fff;
+}
+/* line 18, ../sass/screen.scss */
+a:hover {
+  color: red;
+  font-family: SimSun;
+  font-size: 18px;
+}
+
+简单的数学运算
+p{
+    height: (500px/2);
+}
+output:
+p {
+  height: 250px;
+}
+
+颜色值的转化
+.color_1{
+    color:white;
+    color:hsl(200,50%,70%);   //会转化成16进制的表示方法
+    color:hsla(200,50%,70%,.8);       //或转化成rgba()的表示方法
+}
+output:
+.color_1 {
+  color: white;
+  color: #8cbfd9;
+  color: rgba(140, 191, 217, 0.8);
+}
+
+
+无参mixin函数的使用
+@mixin col-6{
+    width:50%;
+}
+.haha{
+    @include col-6();
+}
+.haha{
+    @include col-6;
+}
+output:
+/* mixin函数定义 */
+/* mixin函数调用，不会出现冗余的代码 */
+/* line 44, ../sass/screen.scss */
+.haha {
+  width: 50%;
+}
+
+带参数mixin函数的使用
+/* 带参数的mixin */
+@mixin width($width:50%){
+    width:$width;
+}
+
+.width_2{
+    @include width(20%);
+    @include width();
+}
+output:
+/* 带参数的mixin */
+/* line 53, ../sass/screen.scss */
+.width_2 {
+  width: 20%;
+  width: 50%;
+}
+
+有冗余样式的重用，合并同类项，继承
+.error{
+    color:red;
+}
+.warning{
+    @extend .error;
+    font-weight:bold;
+}
+output:
+/* line 58, ../sass/screen.scss */
+.error, .warning {
+  color: red;
+}
+
+/* line 61, ../sass/screen.scss */
+.warning {
+  font-weight: bold;
+}
+
+相关联的正交属性都要受到牵连
+.warning_2{
+    color:yellow;
+}
+.warning_2.man{
+    background: lightgray;
+}
+.fetal_error{
+    @extend .warning_2;
+    font-weight:bold;
+}
+output:
+.warning_2, .fetal_error {
+  color: yellow;
+}
+
+/* line 69, ../sass/screen.scss */
+.warning_2.man, .man.fetal_error {
+  background: lightgray;
+}
+
+/* line 72, ../sass/screen.scss */
+.fetal_error {
+  font-weight: bold;
+}
+
+@extend继承多个选择器
+/* @extend 继承多个选择器 */
+.parent_1{
+    width:100px;
+}
+.parent_2{
+    height: 100px;
+}
+.child_1{
+    @extend .parent_1;
+    @extend .parent_2;
+    background: lightgray;
+}
+
+output:
+.parent_1, .child_1 {
+  width: 100px;
+}
+
+/* line 83, ../sass/screen.scss */
+.parent_2, .child_1 {
+  height: 100px;
+}
+
+/* line 86, ../sass/screen.scss */
+.child_1 {
+  background: lightgray;
+}
+
+extend连个知识点：
+1.extend不可以继承选择器序列
+2.
+
+eg:
+/* @extend不可以继承选择器序列 */
+.sel1 .sel2{
+    color: red;
+}
+.sel3{
+    /* @extend .sel1 .sel2;   这样写是错误的*/
+}
+
+简易继承不会输出到文件中，不会出现样式冗余[占位符]
+同一个表达式分开写了，好像没有多大的意义
+%error_2{
+    color:red;
+}
+.fital_error_2{
+    @extend %error_2;
+    font-weight:bold;
+}
+output:
+/* line 100, ../sass/screen.scss */
+.fital_error_2 {
+  color: red;
+}
+
+/* line 103, ../sass/screen.scss */
+.fital_error_2 {
+  font-weight: bold;
+}
+
+sass中的@media跟css区别
+sass中的media query可以内嵌在CSS规则中，在生成CSS时，media query才会被提升到样式的最高级
+好处：
+避免了重复书写选择器或者打乱样式表的流程
+
+/* mixin函数定义 */
+@mixin col-m($width:50%){
+    @media (max-width: 768px) {
+        width:$width;
+    }
+}
+
+.col_m{
+    @include col-m(20%);
+}
+output:
+/* mixin函数定义 */
+@media (max-width: 768px) {
+  /* line 115, ../sass/screen.scss */
+  .col_m {
+    width: 20%;
+  }
+}
+
+eg:
+.sidebar {
+  width: 300px;
+  @media screen and (orientation: landscape) {
+    width: 500px;
+  }
+}
+output:
+.sidebar {
+  width: 300px; }
+  @media screen and (orientation: landscape) {
+    .sidebar {
+      width: 500px; } }
+
+标签嵌套
+1.增加了样式修饰的权重
+2.制造了样式位置的依赖
+解决办法
+嵌套时使用sass的at-root指令
+
+/* 既可以根部显示，又保持了模块的显示 */
+.parent_3{
+    font-weight: bold;
+    @at-root{
+        &_child{
+            color: red;
+        }
+    }
+}
+output:
+/* 既可以根部显示，又保持了模块的显示 */
+/* line 120, ../sass/screen.scss */
+.parent_3 {
+  font-weight: bold;
+}
+/* line 123, ../sass/screen.scss */
+.parent_3_child {
+  color: red;
+}
+
+@media 也可以嵌套 @media：
+@media screen {
+  .sidebar {
+    @media (orientation: landscape) {
+      width: 500px;
+    }
+  }
+}
+output:
+@media screen and (orientation: landscape) {
+  .sidebar {
+    width: 500px; } }
+
+在使用 @media 时，还可以使用插件#{}:
+$media: screen;
+$feature: -webkit-min-device-pixel-ratio;
+$value: 1.5;
+
+@media #{$media} and ($feature: $value) {
+  .sidebar {
+    width: 500px;
+  }
+}
+
+@media screen and (-webkit-min-device-pixel-ratio: 1.5) {
+  .sidebar {
+    width: 500px; } }
+
+条件判断
+@mixin cond($width:50%){
+    @if type-of($width) != number{
+        @error '$width必须是一个数值类型，你输入的width是：#{$width}';
+    }
+    @media (max-width:768px){
+        width:$width;
+    }
+}
+
+.cond_1{
+    @include cond(abcd);
+}
+output:
+$width必须是一个数值类型，你输入的width是：abcd
+
+p {
+  @if 1 + 1 == 2 { border: 1px solid;  }
+  @if 5 < 3         { border: 2px dotted; }
+  @if null           { border: 3px double; }
+}
+output:
+p {
+  border: 1px solid; }
+
+检测单位
+@mixin cond($width:50%){
+    @if type-of($width) != number{
+        @error '$width必须是一个数值类型，你输入的width是：#{$width}';
+    }@else if not unitless($width){
+        @if unit($width) != '%'{
+            @error '$width应该是一个百分比值，你输入的width是：#{$width}';
+        }
+    }@else{
+        @warn '$width应该是一个百分值，你输入的width：#{$width}';
+        $width:percentage($width)/100;
+    }
+    @media (max-width:768px){
+        width:$width;
+    }
+}
+
+.cond_1{
+    @include cond(abcd);
+    @include cond(10px);
+    @include cond(0.8);
+    @include cond(100%);
+}
+
+配置文件config.rb
+output_style = :expanded
+控制代码的输出样式
+:expanded 默认的展开样式
+:nested 子标签会缩进一格
+:compacts属性写成一行，就是我平时手写的那种样式
+:compressed压缩样式，就是线上的产品样式
+
+嵌套输出方式 nested
+展开输出方式 expanded  
+紧凑输出方式 compact 
+压缩输出方式 compressed
+
+sass编译方式：
+sass --watch test.scss:test.css --style nested
+
+
+想保留头部的版权信息时，在注释的开头加上！
+eg:
+/**!
+* 保留的注释
+**/
+
+
+CONTENTS
+variables.............变量集中存储文件
+
+TOOLS
+
+
+COMPONENTS
+reset......................Compass内置浏览器重置样式
+
+BUSINESS
+
+BASE
+screen.scss............针对当前站点主页的样式修饰
+
+=========compass的使用技巧马上开始===============
+compass核心模块(6大块)
+reset
+@import "compass/reset";
+http://necolas.github.io/nomalize.css
+
+layout
+@import "compass/layout";
+
+css3
+helpers
+typography
+utilities
+browser
+
+reset核心mixin
+global-reset
+nested-reset
+reset-box-model
+reset-font
+reset-body
+reset-html5
+reset-list-style
+reset-table
+reset-table-cell
+reset-quotation
+reset-image-anchor-border
+reset-display($selector,$important)
+reset-focus
+
+
+gem install compass-normalize
+
+配置文件config.rb通过require的方式引入插件
+在配置文件顶部日入normalize插件
+require 'compass-normalize';
+
+在对应的.scss文件中引入
+@import "normalize"
+Normalize核心模块(8大块)
+base 
+html5
+links
+typography
+embeds
+groups
+forms
+tables
+注：在引入单个的normalize子模块时必须县引入
+@import "normalize-version";
+
+.reset-sec{
+    @include nested-reset;
+}
+重置选择符.reset-sec下的所有样式
+
+
+/* reset-display重置 */
+@include reset-display('.sel1',true);
+true表示重置的属性后加上important
+
+@import 可以引入多次,需要重复引入的时在末尾+一个感叹号
+eg:
+@import "compass/reset!";
+
+@import "compass/support"
+引入浏览器支持情况
+@debug browsers();
+在控制台显示支持的浏览器列表
+
+compass interactive
+compass进入命令行交互模式
+-->browsers()
+在控制台显示支持的浏览器列表
+-->browser-versions(chrome)
+显示chrome浏览器的版本
+
+在saas文件中编写:
+$supported-browsers chrome,firefox;
+声明支持的浏览器
+
+$supported-browsers:chrome,firefox;
+/* 根据声明支持的浏览器生成相应的代码 */
+@import "compass/css3/border-radius";
+.simple   { @include border-radius(4px, 4px); }
+
+output:
+/* 引入浏览器支持情况 */
+/* 根据声明支持的浏览器生成相应的代码 */
+/* line 199, ../sass/screen.scss */
+.simple {
+  -moz-border-radius: 4px / 4px;
+  -webkit-border-radius: 4px 4px;
+  border-radius: 4px / 4px;
+}
+
+@import "compass/css3/animation";
+$browser-minimum-versions:('firefox':'53');
+.simple   { 
+    @include animation(bbc fade-in 10s 5s);
+}
+@include keyframes(no-anim) {
+  from{width:100%;}
+  to{width:50%;}
+}
+
+$browser-minimum-versions:('ie':'8');
+设置浏览器支持的最小版本
+
+http://www.qianduan.net/css-regions.html
+
+CSS3 Pie
+用hack等技术手段使IE可以实现CSS3属性的技术
+
+Images
+需要渐变图形实现的技术
+
+CSS3下的mixin
+@import "compass/css3/opacity";
+.opa{
+    @include opacity(.5);
+}
+
+output:
+.opa {
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=50);
+  opacity: 0.5;
+}
+
+typography
+修饰文字排版样式
+
+unstyled-link
+使连结的文本和包含它的文本的颜色一致
+
+compass install compass/ellipsis
+用Ellipses截断文字
+
+@import "compass/typography/text/ellipsis";
+$use-mozilla-ellipsis-binding:true;
+就可以使firefox所有版本支持了
+.ellipsis{
+    @include ellipsis(); 
+}
+
+.ellipsis {
+  white-space: nowrap;
+  overflow: hidden;
+  -ms-text-overflow: ellipsis;
+  -o-text-overflow: ellipsis;
+  text-overflow: ellipsis;
+  -moz-binding: url('/stylesheets/xml/ellipsis.xml#ellipsis');
+}
+
+这写是真正的function,不用include进行引入了
+image-url(imageurl)
+带上一个字符串，老外称呼它是cache buster 
+注：这个路径相对于配置文件中配置的路径http_path
+开启相对定位启用如下配置即可
+relative_assets = true
+
+命令行强制使用生产环境进行编译
+compass compile -e production --force
+
+X@debug omitted-usage('ie',‘6’);
+
+IE8以后has-layout就废除掉了
+
+雪碧图合并
+命令行中执行
+compass sprite 'images/logo/*.png'
+
+
+===================慕课网文字教程学习笔记====================
+定义变量和使用变量
+$side : left;
+.rounded {
+    border-#{$side}-radius: 5px;
+    float:$side;
+}
+
+$width:300px;
+1.声明变量的符号“$”
+2.变量名称
+3.赋予变量的值
+
+定义全局变量(!global)
+#main {
+  $width: 5em !global;
+  width: $width;
+}
+#sidebar {
+  width: $width;
+}
+output:
+#main {
+  width: 5em;
+}
+#sidebar {
+  width: 5em;
+}
+
+$btn-primary-color : #fff !default;
+如果值后面加上!default则表示默认值。
+
+在线sass编译器
+http://www.sassmeister.com
+
+sass 的嵌套分为三种:
+1.选择器嵌套
+2.属性嵌套
+3.伪类嵌套
+
+2.属性嵌套
+.box {
+  border: {
+   top: 1px solid red;
+   bottom: 1px solid green;
+  }
+}
+output:
+.box {
+    border-top: 1px solid red;
+    border-bottom: 1px solid green;
+}
+
+minxin、继承、占位符的区别
+混合宏
+声明方式：@mixin
+调用方式：@include
+使用环境：
+    如果相同代码块需要在不同的环境传递不同的值时，可以通过混合宏来定义重复使用的代码块。
+不足：
+    编译出来的CSS代码多次出现调用的混合宏对应的戴安快，使用文件变的臃肿，代码冗余
+
+继承
+声明方式：.className
+调用方式：@extend
+使用环境：
+    相同代码块不需要传递不同的值，并且此代码块已在sass文件中定义，可以通过sass的继承来调用已存在的基类。使用继承将代用相同基类的代码合并在一起
+不足：
+    如果基类并不存在HTML结构时，不管调用与不调用，在编译除来的CSS中都将产生基类对应的样式代码
+
+占位符
+声明方式：%placeholder
+调用方式：@extend
+使用环境：占位符和继承基本类似，唯一不同的是，相同代码块并没有在基类中存在，而是额外生命。如果不调用已声明的占位符，将不会产生任何样式代码，如果在不同选择器调用占位符，那么编译出来的CSS代码将会把相同的代码合并在一起
+
+#context a%extreme {
+  color: blue;
+  font-weight: bold;
+  font-size: 2em;
+}
+.notice {
+  @extend %extreme;
+}
+output:
+#context a.notice {
+  color: blue;
+  font-weight: bold;
+  font-size: 2em;
+}
+
+数据类型
+ 数字: 如，1、 2、 13、 10px；
+ 字符串：有引号字符串或无引号字符串，如，"foo"、 'bar'、 baz；
+ 颜色：如，blue、 #04a3f9、 rgba(255,0,0,0.5)；
+ 布尔型：如，true、 false；
+ 空值：如，null；
+ 值列表：用空格或者逗号分开，如，1.5em 1em 0 2em 、 Helvetica, Arial, sans-serif。
+ map值 (key1: value1, key2: value2)
+ $map: (key1: value1, key2: value2, key3: value3);
+
+加法运算
+单位相通才能相加
+
+减法运算
+单位相同才能相减
+
+乘法运算
+不能2个同时有单位
+
+除法运算
+•    如果数值或它的任意部分是存储在一个变量中或是函数的返回值。
+code:
+$width: 1000px;
+$nums: 10;
+
+.item {
+  width: $width / 10;  
+}
+
+.list {
+  width: $width / $nums;
+}
+
+•    如果数值被圆括号包围。
+code:
+.box {
+  width: (100px / 2);  
+}
+
+•    如果数值是另一个数学表达式的一部分。
+code:
+.box {
+  width: 100px / 2 + 2in;  
+}
+
+//SCSS
+p {
+  font: 10px/8px;             // 纯 CSS，不是除法运算
+  $width: 1000px;
+  width: $width/2;            // 使用了变量，是除法运算
+  width: round(1.5)/2;        // 使用了函数，是除法运算
+  height: (500px/2);          // 使用了圆括号，是除法运算
+  margin-left: 5px + 8px/2px; // 使用了加（+）号，是除法运算
+}
+
+与除法不同的是：
+.box {
+  width: (1000px / 100px);
+}
+output：
+.box {
+  width: 10;
+}
+
+如果只是想使用变量的值，而不想使用数学运算，可以使用差值#{}
+p {
+  $font-size: 12px;
+  $line-height: 30px;
+  font: #{$font-size}/#{$line-height};
+}
+output:
+p {
+  font: 12px/30px; }
+
+sassscript
+判断语句
+@mixin blockOrHidden($boolean:true) {
+  @if $boolean {
+      @debug "$boolean is #{$boolean}";
+      display: block;
+    }
+  @else {
+      @debug "$boolean is #{$boolean}";
+      display: none;
+    }
+}
+
+for循环
+有2种方式：
+@for $i from <start> through <end>      [包括end这个数]
+@for $i from <start> to <end>                [不包括end这个数]
+参数：
+$i 表示变量
+start 表示起始值
+end 表示结束值
+
+eg;
+@for $i from 1 through 3 {
+  .item-#{$i} { width: 2em * $i; }
+}
+
+@while循环
+@while 指令也需要 SassScript 表达式（像其他指令一样），并且会生成不同的样式块，直到表达式值为 false 时停止循环。这个和 @for 指令很相似，只要 @while 后面的条件为 true 就会执行。
+
+//SCSS
+$types: 4;
+$type-width: 20px;
+
+@while $types > 0 {
+    .while-#{$types} {
+        width: $type-width + $types;
+    }
+    $types: $types - 1;
+}
+
+@each循环
+@each $var in <list>
+
+eg:
+$list: adam john wynn mason kuroir;//$list 就是一个列表
+
+@mixin author-images {
+    @each $author in $list {
+        .photo-#{$author} {
+            background: url("/images/avatars/#{$author}.png") no-repeat;
+        }
+    }
+}
+
+.author-bio {
+    @include author-images;
+}
+
+函数
+· 字符串函数
+· 数字函数
+· 列表函数
+· 颜色函数
+· Introspection 函数
+· 三元函数等
+· 自定义函数
+
+unquote($string)：删除字符串中的引号；
+quote($string)：给字符串添加引号。
+
+to-upper-case()函数将字符串小写字母转换成大写字母
+//SCSS
+.test {
+  text: to-upper-case(aaaaa);
+  text: to-upper-case(aA-aAAA-aaa);
+}
+//CSS
+.test {
+  text: AAAAA;
+  text: AA-AAAA-AAA;
+}
+
+to-lower-case()将字符串转换成小写字母
+//SCSS
+.test {
+  text: to-lower-case(AAAAA);
+  text: to-lower-case(aA-aAAA-aaa);
+}
+//CSS
+.test {
+  text: aaaaa;
+  text: aa-aaaa-aaa;
+}
+
+数字函数
+· percentage($value)：将一个不带单位的数转换成百分比值；
+
+>> percentage(.2)
+20%
+>> percentage(2px / 10px)
+20%
+>> percentage(2em / 10em)
+20%
+
+· round($value)：将数值四舍五入，转换成一个最接近的整数；
+
+>> round(12.3)
+12
+>> round(12.5)
+13
+>> round(1.49999)
+1
+>> round(2.0)
+2
+>> round(20%)
+20%
+>> round(2.2%)
+2%
+>> round(3.9em)
+4em
+>> round(2.3px)
+2px
+>> round(2px / 3px)
+1
+>> round(1px / 3px)
+0
+>> round(3px / 2em)
+2px/em
+
+· ceil($value)：将大于自己的小数转换成下一位整数；
+
+>> ceil(2.0)
+2
+>> ceil(2.1)
+3
+>> ceil(2.6)
+3
+>> ceil(2.3%)
+3%
+>> ceil(2.3px)
+3px
+>> ceil(2.5px)
+3px
+>> ceil(2px / 3px)
+1
+>> ceil(2% / 3px)
+1%/px
+>> ceil(1em / 5px)
+1em/px
+
+· floor($value)：将一个数去除他的小数部分；
+
+>> floor(2.1)
+2
+>> floor(2.5)
+2
+>> floor(3.5%)
+3%
+>> floor(10.2px)
+10px
+>> floor(10.8em)
+10em
+>> floor(2px / 10px)
+0
+>> floor(3px / 1em)
+3px/em
+
+· abs($value)：返回一个数的绝对值；
+
+>> abs(10)
+10
+>> abs(-10)
+10
+>> abs(-10px)
+10px
+>> abs(-2em)
+2em
+>> abs(-.5%)
+0.5%
+>> abs(-1px / 2px)
+0.5
+
+· min($numbers…)：找出几个数值之间的最小值；
+
+>> min(1,2,1%,3,300%)
+1%
+>> min(1px,2,3px)
+1px
+>> min(1em,2em,6em)
+1em
+
+· max($numbers…)：找出几个数值之间的最大值；
+
+>> max(1,5)
+5
+>> max(1px,5px)
+5px
+
+· random(): 获取随机数[0-1之间]
+
+>> random()
+0.03886
+>> random()
+0.66527
+>> random()
+0.8125
+>> random()
+0.26839
+>> random()
+0.85063
+
+列表函数
+· length($list)：返回一个列表的长度值[用空格分开，不能用逗号分开]
+
+>> length(10px)
+1
+>> length(10px 20px (border 1px solid) 2em)
+4
+>> length(border 1px solid)
+3
+
+· nth($list, $n)：返回一个列表中指定的某个标签值
+
+>> nth(10px 20px 30px,1)
+10px
+>> nth((Helvetica,Arial,sans-serif),2)
+"Arial"
+>> nth((1px solid red) border-top green,1)
+(1px "solid" #ff0000)
+
+· join($list1, $list2, [$separator])：将两个列给连接在一起，变成一个列表；[只能合并2个列表，合并3个和3个以上的列表就会出错]
+
+>> join(10px 20px, 30px 40px)
+(10px 20px 30px 40px)
+>> join((blue,red),(#abc,#def))
+(#0000ff, #ff0000, #aabbcc, #ddeeff)
+>> join((blue,red),(#abc #def))
+(#0000ff, #ff0000, #aabbcc, #ddeeff)
+
+· append($list1, $val, [$separator])：将某个值放在列表的最后；
+
+>> append(10px 20px ,30px)
+(10px 20px 30px)
+>> append((10px,20px),30px)
+(10px, 20px, 30px)
+>> append(green,red)
+(#008000 #ff0000)
+>> append(red,(green,blue))
+(#ff0000 (#008000, #0000ff))
+
+注：
+· 如果列表只有一个列表项时，那么插入进来的值将和原来的值会以空格的方式分隔。
+· 如果列表中列表项是以空格分隔列表项，那么插入进来的列表项也将以空格分隔；
+· 如果列表中列表项是以逗号分隔列表项，那么插入进来的列表项也将以逗号分隔。
+
+· 如果取值为 comma 将会以逗号分隔列表项
+· 如果取值为 space 将会以空格分隔列表项
+
+>> append((blue green),red,comma)
+(#0000ff, #008000, #ff0000)
+>> append((blue green),red,space)
+(#0000ff #008000 #ff0000)
+>> append((blue, green),red,comma)
+(#0000ff, #008000, #ff0000)
+>> append((blue, green),red,space)
+(#0000ff #008000 #ff0000)
+>> append(blue,red,comma)
+(#0000ff, #ff0000)
+>> append(blue,red,space)
+(#0000ff #ff0000)
+
+· zip($lists…)：将几个列表结合成一个多维的列表；[列数必须是相同的]
+>> zip(1px 2px 3px,solid dashed dotted,green blue red)
+((1px "solid" #008000), (2px "dashed" #0000ff), (3px "dotted" #ff0000))
+
+
+· index($list, $value)：返回一个值在列表中的位置值。[因为没有程序员思维，所有序号从1开始]
+>> index(1px solid red, 1px)
+1
+>> index(1px solid red, solid)
+2
+>> index(1px solid red, red)
+3
+>> index(1px solid red,dotted) //列表中没有找到 dotted
+false
+
+Introspection函数(反思函数)
+Introspection 函数包括了几个判断型函数：
+
+· type-of($value)：返回一个值的类型
+
+  返回值：
+  number 为数值型。
+  string 为字符串型。
+  bool 为布尔型。
+  color 为颜色型。
+
+  eg:
+    >> type-of(100)
+    "number"
+    >> type-of(100px)
+    "number"
+    >> type-of("asdf")
+    "string"
+    >> type-of(asdf)
+    "string"
+    >> type-of(true)
+    "bool"
+    >> type-of(false)
+    "bool"
+    >> type-of(#fff)
+    "color"
+    >> type-of(blue)
+    "color"
+    >> type-of(1 / 2 = 1)
+    "string"
+
+· unit($number)：返回一个值的单位
+  用来获取一个值所使用的单位，碰到复杂的计算时，其能根据运算得到一个“多单位组合”的值，不过只充许乘、除运算
+  >> unit(100)
+  ""
+  >> unit(100px)
+  "px"
+  >> unit(20%)
+  "%"
+  >> unit(1em)
+  "em"
+  >> unit(10px * 3em)
+  "em*px"
+  >> unit(10px / 3em)
+  "px/em"
+  >> unit(10px * 2em / 3cm / 1rem)
+  "em/rem"
+
+  但加、减碰到不同单位时，unit() 函数将会报错，[除 px 与 cm、mm 运算之外]：
+  >> unit(1px + 1cm)
+  "px"
+  >> unit(1px - 1cm)
+  "px"
+  >> unit(1px + 1mm)
+  "px"
+  >> unit(10px * 2em - 3cm / 1rem)
+  SyntaxError: Incompatible units: 'cm' and 'px*em'.
+  >> unit(10px * 2em - 1px / 1rem)
+  SyntaxError: Incompatible units: '' and 'em'.
+  >> unit(1px - 1em)
+  SyntaxError: Incompatible units: 'em' and 'px'.
+  >> unit(1px - 1rem)
+  SyntaxError: Incompatible units: 'rem' and 'px'.
+  >> unit(1px - 1%)
+  SyntaxError: Incompatible units: '%' and 'px'.
+  >> unit(1cm + 1em)
+  SyntaxError: Incompatible units: 'em' and 'cm'.
+
+· unitless($number)：判断一个值是否带有单位
+
+  >> unitless(100)
+  true
+  >> unitless(100px)
+  false
+  >> unitless(100em)
+  false
+  >> unitless(100%)
+  false
+  >> unitless(1 /2 )
+  true
+  >> unitless(1 /2 + 2 )
+  true
+  >> unitless(1px /2 + 2 )
+  false
+
+· comparable($number-1, $number-2)：判断两个值是否可以做加、减和合并
+  判断两个数是否可以进行“加，减”以及“合并”。如果可以返回的值为 true，如果不可以返回的值是 false：
+
+  >>
+  comparable(2px,1px)
+  true
+  >> comparable(2px,1%)
+  false
+  >> comparable(2px,1em)
+  false
+  >> comparable(2rem,1em)
+  false
+  >> comparable(2px,1cm)
+  true
+  >> comparable(2px,1mm)
+  true
+  >> 
+  comparable(2px,1rem)
+  false
+  >> comparable(2cm,1mm)
+  true
+
+Miscellaneous函数[三元运算符]
+if($condition,$if-true,$if-false)
+
+>> if(true,1px,2px)
+1px
+>> if(false,1px,2px)
+2px
+
+map:类似于JSON数据
+$map: (
+    $key1: value1,
+    $key2: value2,
+    $key3: value3
+)
+
+eg:
+$theme-color: (
+    default: (
+        bgcolor: #fff,
+        text-color: #444,
+        link-color: #39f
+    ),
+    primary:(
+        bgcolor: #000,
+        text-color:#fff,
+        link-color: #93f
+    ),
+    negative: (
+        bgcolor: #f36,
+        text-color: #fefefe,
+        link-color: #d4e
+    )
+);
+
+Sass Maps的函数
+
+· map-get($map,$key)：根据给定的 key 值，返回 map 中相关的值。
+
+$social-colors: (
+    dribble: #ea4c89,
+    facebook: #3b5998,
+    github: #171515,
+    google: #db4437,
+    twitter: #55acee
+);
+.btn-dribble{
+  color: map-get($social-colors,facebook);
+}
+
+.btn-dribble {
+  color: #3b5998;
+}
+
+注：如果map中没有这个key值
+.btn-weibo{
+  font-size: 12px;
+  color: map-get($social-colors,weibo);
+}
+output:
+.btn-weibo {
+  font-size: 12px;
+}
+
+· map-merge($map1,$map2)：将两个 map 合并成一个新的 map。
+
+$color: (
+    text: #f36,
+    link: #f63,
+    border: #ddd,
+    backround: #fff
+);
+$typo:(
+    font-size: 12px,
+    line-height: 1.6
+);
+$newmap: map-merge($color,$typo);
+
+output:
+$newmap:(
+    text: #f36,
+    link: #f63,
+    border: #ddd,
+    background: #fff,
+    font-size: 12px,
+    line-height: 1.6
+);
+
+注：如果$map1，$map2中有相同的$key,$map2中的$key会覆盖map1中的map-key
+
+· map-remove($map,$key)：从 map 中删除一个 key，返回一个新 map。
+
+$map:map-remove($social-colors,dribble);
+$map:(
+    facebook: #3b5998,
+    github: #171515,
+    google: #db4437,
+    twitter: #55acee
+);
+
+· map-keys($map)：返回 map 中所有的 key。
+
+map-keys($social-colors);
+"dribble","facebook","github","google","twitter"
+
+@function colors($color){
+    $names: map-keys($social-colors);
+    @if not index($names,$color){
+        @warn "Waring: `#{$color} is not a valid color name.`";
+    }
+    @return map-get($social-colors,$color);
+}
+调用：
+.btn-weibo{
+    color: colors(weibo);
+}
+
+用each调用
+@each:
+
+@each $name in map-keys($social-colors){
+    .btn-#{$name}{
+        color: colors($name);
+    }
+}
+
+用for调用
+@for $i from 1 through length(map-keys($social-colors)){
+    .btn-#{nth(map-keys($social-colors),$i)} {
+        color: colors(nth(map-keys($social-colors),$i));
+    }
+}
+结果都一样：
+.btn-dribble {
+  color: #ea4c89;
+}
+
+.btn-facebook {
+  color: #3b5998;
+}
+
+.btn-github {
+  color: #171515;
+}
+
+.btn-google {
+  color: #db4437;
+}
+
+.btn-twitter {
+  color: #55acee;
+}
+
+· map-values($map)：返回 map 中所有的 value。
+类似于map-keys，它取的是values的值，重复的值也会被取出来
+
+eg:
+map-values($social-colors)
+output:
+#ea4c89,#3b5998,#171515,#db4437,#55acee
+
+· map-has-key($map,$key)：根据给定的 key 值判断 map 是否有对应的 value 值，如果有返回 true，否则返回 false。
+当 $key 不在 $map 中时，使用 map-get($map,$key) 函数将返回一个 null 值。但对于开发人员，并看不到任何提示信息。如果使用 map-has-key($map,$key) 函数就可以改变这一状态。
+
+@if map-has-key($social-colors,facebook){
+    .btn-facebook {
+        color: map-get($social-colors,facebook);
+    }
+} @else {
+    @warn "No color found for faceboo in $social-colors map. Property ommitted."
+}
+
+.btn-fackbook{
+    color: #3b5998;
+}  
+
+· keywords($args)：返回一个函数的参数，这个参数可以动态的设置 key 和 value。[可以当做查看内部结构的函数]
+
+@mixin map($args...){
+    @debug keywords($args);
+}
+@include map(
+  $dribble: #ea4c89,
+  $facebook: #3b5998,
+  $github: #171515,
+  $google: #db4437,
+  $twitter: #55acee
+);
+
+output:
+DEBUG: (dribble: #ea4c89, facebook: #3b5998, github: #171515, google: #db4437, twitter: #55acee)
+
+颜色函数
+· rgb($red,$green,$blue)：根据红、绿、蓝三个值创建一个颜色；
+· rgba($red,$green,$blue,$alpha)：根据红、绿、蓝和透明度值创建一个颜色；
+· red($color)：从一个颜色中获取其中红色值；
+· green($color)：从一个颜色中获取其中绿色值；
+· blue($color)：从一个颜色中获取其中蓝色值；
+· mix($color-1,$color-2,[$weight])：把两种颜色混合在一起。
+
+$weight 为 合并的比例（选择权重），默认值为 50%，其取值范围是 0~1 之间。它是每个 RGB 的百分比来衡量，当然透明度也会有一定的权重。默认的比例是 50%，这意味着两个颜色各占一半，如果指定的比例是 25%，这意味着第一个颜色所占比例为 25%，第二个颜色所占比例为75%。
+
+//SCSS
+$color1: #a63;
+$color2: #fff;
+$bgColor1: #f36;
+$bgColor2: #e36;
+$borderColor1:#c36;
+$borderColor2:#b36;
+
+.mix {
+    background: mix($bgColor1,$bgColor2,.75);
+    color: mix($color1,$color2,.25);
+    border-color: mix($borderColor1,$bgColor2,.05);
+}
+
+sass -i
+在命令终端开启这个命令，相当于开启 Sass 的函数计算。
+
+eg:
+$ sass -i
+>> rgb(200,40,88) //根据r:200,g:40,b:88计算出一个十六进制颜色值
+#c82858
+>> rgba(#c82858,.65) //根据#c82858的65%透明度计算出一个rgba颜色值
+rgba(200, 40, 88, 0.65)
+>> red(#c82858) //从#c82858颜色值中得到红色值 200
+200
+>> green(#c82858) //从#c82858颜色值中得到绿色值 40
+40
+>> blue(#c82858) //从#c82858颜色值中得到蓝色值 88
+88
+>> mix(#c82858,rgba(200,40,80,.65),.3) //把#c82858和rgba(200,40,88,.65) 两颜色按比例混合得到一个新颜色
+rgba(200, 40, 80, 0.65105)
+
+RGBA()函数
+rgba($red,$green,$blue,$alpha)  //将一个rgba颜色转译出来，和未转译的值一样
+rgba($color,$alpha)  //将一个Hex颜色转换成rgba颜色
+
+eg:
+$color: #f36;
+$bgColor: orange;
+$borderColor:green;
+
+//SCSS
+.rgba {
+    color: rgba($color,.5);
+    background: rgba($bgColor,.5);
+    border-color: rgba($borderColor,.5);
+}
+
+.rgba {
+  color: rgba(255, 51, 102, 0.5);
+  background: rgba(255, 165, 0, 0.5);
+  border-color: rgba(0, 128, 0, 0.5);
+}
+
+HSL函数
+· hsl($hue,$saturation,$lightness)：通过色相（hue）、饱和度(saturation)和亮度（lightness）的值创建一个颜色；
+· hsla($hue,$saturation,$lightness,$alpha)：通过色相（hue）、饱和度(saturation)、亮度（lightness）和透明（alpha）的值创建一个颜色；
+· hue($color)：从一个颜色中获取色相（hue）值；
+· saturation($color)：从一个颜色中获取饱和度（saturation）值；
+· lightness($color)：从一个颜色中获取亮度（lightness）值；
+· adjust-hue($color,$degrees)：通过改变一个颜色的色相值，创建一个新的颜色；
+· lighten($color,$amount)：通过改变颜色的亮度值，让颜色变亮，创建一个新的颜色；
+· darken($color,$amount)：通过改变颜色的亮度值，让颜色变暗，创建一个新的颜色；
+· saturate($color,$amount)：通过改变颜色的饱和度值，让颜色更饱和，从而创建一个新的颜色
+· desaturate($color,$amount)：通过改变颜色的饱和度值，让颜色更少的饱和，从而创建出一个新的颜色；
+· grayscale($color)：将一个颜色变成灰色，相当于desaturate($color,100%);
+· complement($color)：返回一个补充色，相当于adjust-hue($color,180deg);
+· invert($color)：反回一个反相色，红、绿、蓝色值倒过来，而透明度不变。
+
+eg:
+>> hsl(200,30%,60%) //通过h200,s30%，l60%创建一个颜色
+#7aa3b8
+ 
+>> hsla(200,30%,60%,.8)//通过h200,s30%，l60%,a80%创建一个颜色
+rgba(122, 163, 184, 0.8)
+
+>> hue(#7ab)//得到#7ab颜色的色相值
+195deg
+
+>> saturation(#7ab)//得到#7ab颜色的饱和度值
+33.33333%
+
+>> lightness(#7ab)//得到#7ab颜色的亮度值
+60%
+
+>> adjust-hue(#f36,150deg) //改变#f36颜色的色相值为150deg
+#33ff66
+
+>> lighten(#f36,50%) //把#f36颜色亮度提高50%
+#ffffff
+
+>> darken(#f36,50%) //把#f36颜色亮度降低50%
+#33000d
+
+>> saturate(#f36,50%) //把#f36颜色饱和度提高50%
+#ff3366
+
+>> desaturate(#f36,50%) //把#f36颜色饱和度降低50%
+#cc667f
+
+>> grayscale(#f36) //把#f36颜色变成灰色
+#999999
+
+>> complement(#f36)
+#33ffcc
+
+>> invert(#f36)
+#00cc99
+
+HSL函数-lighten(),darken()
+
+eg:
+$baseColor: #ad141e;
+//SCSS
+.lighten {
+    background: lighten($baseColor,10%);
+}
+.darken{
+    background: darken($baseColor,10%);
+}
+
+output:
+//CSS
+.lighten {
+  background: #db1926;
+}
+.darken {
+  background: #7f0f16;
+}
+
+验证亮度值变化了多少
+>> lightness(#ad141e) //原色的亮度值
+37.84314%
+>> lightness(#db1926) //在原色的亮度值基础上增加10%
+47.84314%
+>> lightness(#7f0f16) //在原色的亮度值基础上减少10%
+27.84314%
+
+HSL函数-saturate()
+saturate()、desaturate()这两个函数是通过改变颜色的饱和度来得到一个新的颜色，他们和前面介绍的修改亮度得到新颜色的方法非常相似
+
+//SCSS
+$baseColor: #ad141e;
+.saturate {
+  background: saturate($baseColor,30%); //在原色饱和度基础上增加饱和度
+}
+.desaturate {
+  background: desaturate($baseColor,30%);//在原色饱和度基础上减少饱和度
+}
+
+//CSS
+.saturate {
+  background: #c1000d;
+}
+
+.desaturate {
+  background: #903137;
+}
+
+验证饱和度变化了多少
+>> saturation(#ad141e) //原色的饱和度
+79.27461%
+>> saturation(#c1000d)  //在原色饱和度基础上增加30%,超过100%时按100%计算
+100%
+>> saturation(#903137) //在原色饱和度基础上减少30%,小于0时按0计算
+49.2228%
+
+HSL函数-adjust-hue()函数
+这个是通过调整颜色的色相换算一个新颜色。他需要一个颜色和色相度数值。通常这个度数值是在 -360deg 至 360deg 之间，当然了可以是百分数：
+
+//SCSS
+$baseColor: #ad141e;
+.adjust-hue-deg {
+  background: adjust-hue($baseColor,30deg);
+}
+.adjust-hue-per {
+  background: adjust-hue($baseColor,30%);
+}
+
+//CSS
+.adjust-hue-deg {
+  background: #ad5614;
+}
+
+.adjust-hue-per {
+  background: #ad5614;
+}
+
+注：从转译出来的代码，不难发现他们的颜色是一样的。尝试多次，如果两个值（抛弃 deg 和 100%）相同，计算出来的颜色也会一样。
+
+HSL函数-grayscale()函数
+可以转化成不同程度的灰色，grayscale() 函数处理过的颜色，其最大的特征就是颜色的饱和度为 0。
+
+//SCSS
+$baseColor: #ad141e;
+.grayscale {
+  background: grayscale($baseColor);
+}
+.desaturate {
+  background: desaturate($baseColor,100%);
+}
+
+//CSS
+.grayscale {
+  background: #616161;
+}
+
+.desaturate {
+  background: #616161;
+}
+
+验证色相，饱和度，亮度
+>> hue(#ad141e)
+356.07843deg
+>> hue(#616161)
+0deg
+>> saturation(#ad141e)
+79.27461%
+>> saturation(#616161)
+0%
+>> lightness(#ad141e)
+37.84314%
+>> lightness(#616161)
+38.03922%
+
+透明度函数
+·   alpha($color) /opacity($color)：获取颜色透明度值；
+
+>> alpha(red)
+1
+>> alpha(rgba(red,.8))
+0.8
+>> opacity(red)
+1
+>> opacity(rgba(red,.8))
+0.8
+
+·   rgba($color, $alpha)：改变颜色的透明度值；
+
+>> rgba(red,.5)
+rgba(255, 0, 0, 0.5)
+>> rgba(#dedede,.5)
+rgba(222, 222, 222, 0.5)
+>> rgba(rgb(34,45,44),.5)
+rgba(34, 45, 44, 0.5)
+>> rgba(rgba(33,45,123,.2),.5)
+rgba(33, 45, 123, 0.5)
+>> rgba(hsl(33,7%,21%),.5)
+rgba(57, 54, 50, 0.5)
+>> rgba(hsla(33,7%,21%,.9),.5)
+rgba(57, 54, 50, 0.5)
+
+·   opacify($color, $amount) / fade-in($color, $amount)：使颜色更不透明；
+·   transparentize($color, $amount) / fade-out($color, $amount)：使颜色更加透明。
+
+transparentize()、 fade-out()函数
+transparentize() 和 fade-out() 函数所起作用刚好与 opacify() 和 fade-in() 函数相反，让颜色更加的透明。这两个函数会让透明值做减法运算，当计算出来的结果小于 0 时会以 0 计算，表示全透明。
+
+>> transparentize(red,.5)
+rgba(255, 0, 0, 0.5)
+>> transparentize(#fde,.9)
+rgba(255, 221, 238, 0.1)
+>> transparentize(rgba(98,233,124,.3),.11)          //透明度是相减的关系
+rgba(98, 233, 124, 0.19)
+>> transparentize(rgba(98,233,124,.3),.51)
+rgba(98, 233, 124, 0)
+>> fade-out(red,.9)
+rgba(255, 0, 0, 0.1)
+>> fade-out(hsla(98,6%,23%,.5),.1)
+rgba(58, 62, 55, 0.4)
+>> fade-out(hsla(98,6%,23%,.5),.6)
+rgba(58, 62, 55, 0)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

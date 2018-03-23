@@ -1,0 +1,353 @@
+说明：
+1.Microsoft开发的[Google也支持]
+2.JavaScript的超集
+3.遵循ES6
+
+官网：http://www.typescriptlang.org/
+官网：http://babeljs.cn/
+
+sudo npm install -g typescript
+tsc -version
+tsc Hello.ts [编译代码]
+
+拼字符串
+var content = `aaa
+bbb
+ccc`
+
+字符串模板
+var myname = "郝海亮";
+var getName = function () {
+    return "handsome !";
+}
+
+console.log(`${myname} hello`);
+console.log(`prefrence ${getName()}`);
+
+自动拆分字符串
+function test(template, name, age) {
+    console.log(template);
+    console.log(name);
+    console.log(age);
+}
+
+var myname = "hailiang";
+
+var getAge = function () { 
+    return 18;
+}
+
+test`myname is ${myname}, I'm ${getAge()}`;
+
+指定参数类型
+string number any boolean void
+var myname: string = "hailiang"     //明确指定类型
+var age = 13        //类型推断机制
+age = "hello"
+
+指定任意类型的数据
+var age:any = 13
+age = "hello"
+
+指定函数的返回类型
+function test(): void{ //要求不返回数字，但是已经返回了，不对的
+    return ""
+}
+
+指定参数的类型
+function test(name:string): string{
+    return ""
+}
+
+定义一个类
+class Person{
+    name: string;
+    age: number;
+}
+
+参数新特性：
+参数类型：
+    在参数名称后面使用冒号来指定参数类型
+默认参数：
+    在参数声明后面用等号来指定参数的默认值
+可选参数：
+    在方法的参数声明后面用问号来标明此参数为可选参数
+    注：必选参数不能位于可选参数后边
+
+function test(name:string, height?:number, age:number = 18){
+    console.log(`name:${name}, height:${height}, age:${age}`);
+}
+test("hailiang")
+
+rest and spread操作符
+用来声明任意数量的方法参数
+
+function test(...args) {
+    args.forEach(function (arg) {
+        console.log(arg);
+    });
+}
+
+test(3, 2, 1, "wa")
+test(...[1,2,3])            //可以把一个一个参数拆分开来
+
+generator函数[不至于形成死循环]
+    控制函数的执行过程，手工暂停和恢复代码的执行
+
+function* test(){
+  console.log('start');
+  yield;
+  console.log('end');
+}
+
+var test1 = test();
+test1.next();
+test1.next();
+
+=========================================
+function* getStockPrice(){
+    while(true){
+        yield Math.random() * 100;
+    }
+}
+
+var priceGenerator = getStockPrice();
+var limitPrice = 15;
+var price = 100;
+
+while(price > limitPrice){
+    price = priceGenerator.next().value;
+    console.log(`现在的价格为：${price}`);
+}
+
+console.log(`成交的价格为：${price}`);
+
+===================================
+destructuring析构表达式
+    通过表达式将对象或数组拆分成任意数量的变量
+
+function test() {
+    return {
+        code: 14,
+        myname:'hailiang',
+        alias:'superman',
+        wife:{
+            code1:15,
+            myname:'meinv'
+        }
+    }
+}
+
+var {code, myname, alias:ruming, wife:{code1}} = test();
+console.log(`code:${code}, myname:${myname}, wife name is : ${code1}`);
+
+=========================
+
+var arr = [3, 6, 4, 7];
+var [,,num1, num2] = arr;
+console.log(`num1:${num1}, num2:${num2}`);
+
+=========================
+
+var arr = [3, 6, 4, 7, 8, 9, 0];
+var [,num1, num2, ...others] = arr;
+console.log(`num1:${num1}, num2:${num2}, others:${others}`);
+
+=========================
+
+箭头表达式
+用来声明匿名函数，消除传统匿名函数的this指针问题
+
+var sum = (arg1, arg2) => arg1 + arg2;    //一行是不用大括号的，也不用return表达式
+alert(sum(1, 2));
+
+var arr = [1, 2, 3, 4, 5, 6];
+console.log(arr.filter(value => value%2 === 0));
+
+function test(name) {
+    this.name = name;
+
+    setTimeout(() => console.log(`name is ${this.name}`), 10000);     //this指针修改了
+}
+
+test('haha');
+
+=========================
+
+forEach, for in, for of
+
+var arr = [1, 2, 3, 4];
+var arr.desc = "haha";
+arr.forEach(value => console.log(value));//只会打印数组[不支持break跳出去]
+
+--------------------------------------------
+
+var arr = [1, 2, 3, 4];
+var arr.desc = "haha";
+
+for (var temp in arr) {
+    console.log(temp);  //只打印数组的相关信息
+}
+
+=========================
+面向对象特性
+类Class
+修饰符：public protected private 默认
+class Person{
+    constructor() {
+        console.log('构造函数初始化一次');//外界访问不到，只是在实例化时调用一次
+    }
+    name;
+    eat() {
+        console.log("快过年了了！");
+    }
+}
+
+--------------------------------------------
+
+var person: Person = new Person();
+person.eat();
+
+class Person{
+    constructor(name:string) {
+        this.name = name;
+    }
+    name;
+    eat() {
+        console.log(`${this.name},快过年了了！`);
+    }
+}
+
+var person: Person = new Person('帅哥');
+person.eat();
+
+等价于：
+
+class Person{
+    constructor(public name:string) {//构造函数上的访问修饰符写和不写是不一样的
+        
+    }
+    eat() {
+        console.log(`${this.name},快过年了了！`);
+    }
+}
+
+var person: Person = new Person('帅哥');
+person.eat();
+
+=========================
+
+继承
+class Person{
+    constructor(public name:string) {}
+    
+    eat() {
+        console.log(`${this.name},快过年了了！`);
+    }
+}
+
+class Employee extends Person{}
+
+var person: Person = new Employee('帅哥');
+person.eat();
+
+--------------------------------------------
+
+class Person{
+    constructor(public name:string) {}
+    
+    eat() {
+        console.log(`${this.name},快过年了了！`);
+    }
+}
+
+class Employee extends Person{
+    constructor(name:string, public idcard: number) { 
+        super(name);//之类的构造函数必须包含父类的构造函数
+    }
+    getMyCard() {
+        super.eat();
+        console.log(this.idcard);
+    }
+}
+
+var person: Employee = new Employee('帅哥',110);
+person.eat();
+person.getMyCard();
+
+=========================
+
+泛型(generic)参数化的类型，一般用来限制集合的类型
+class Person{
+    constructor(public name: string) { }
+}
+
+var arr: Array<Person> = [];
+var person1 = new Person('laozhang');
+arr.push(person1);
+
+=========================
+
+接口(Interface)
+用来建立某种代码约定，使得其他开发者在调用某个方法或创建新的类时必须遵循接口所定义的代码约定
+注：JavaScript没有这个概念，这是typescript引入的
+
+interface IPerson{
+    name: string,
+    age:number
+}
+
+class Person{
+    constructor(public config : IPerson){}
+}
+
+var person = new Person({name:"hailiang", age:18});//参数多传和少传都会报错
+
+--------------------------------------------
+
+interface Animal{
+    eat();
+}
+
+class Sheep implements Animal{
+    eat() {
+        //必须实现接口生命的方法
+    }
+}
+
+=========================
+
+注解(annotation)
+注解为程序的元素(类、方法、变量)加上更直观的说明，这些说明信息与程序的业务逻辑无关，而是供指定的工具或框架使用的
+
+=========================
+
+类型定义文件(*.d.ts)
+类型定义文件用来帮助开发者在TypeScript中使用已有的JavaScript的工具包，如：jQuery
+
+=========================
+=========================
+=========================
+=========================
+=========================
+=========================
+=========================
+=========================
+=========================
+=========================
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,25 @@
+-->npm install -g vue-cli
+-->vue
+-->vue init webpack my-first-vue-project
+交互式生成配置文件
+快速入门
+-->cd my-first-vue-project
+-->npm install      [安装依赖]
+注：全部都下载到项目的目录当中了
+-->npm run dev
+注：启动一个8080端口的服务器
+-->npm run build
+注：构建一个产品版本
+
+小结：
+· new一个vue对象的时候你可以设置它的属性，其中最重要的包括三个，分别是data，methods，watch
+· data代表vue对象的数据
+  method代表vue对象的方法
+  watch设置了对象监听的方法
+· vue对象里的设置通过html指令进行关联
+
+重要的指令包括
+-  v-text渲染数据
+-  v-if控制显示
+-  v-on绑定事件
+-  v-for循环渲染
