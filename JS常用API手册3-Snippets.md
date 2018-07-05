@@ -161,11 +161,70 @@ if(/Android (\d+\.\d+)/.test(ua)){
 # 判断手机横竖屏状态
 ```javascript
 window.addEventListener("onorientationchange" in window ? "orientationchange" : "resize", function() {
-	if (window.orientation === 180 || window.orientation === 0) { 
+	if (window.orientation === 180 || window.orientation === 0) {
 		alert('竖屏状态！');
-	} 
-	if (window.orientation === 90 || window.orientation === -90 ){ 
+	}
+	if (window.orientation === 90 || window.orientation === -90 ){
 		alert('横屏状态！');
 	}  
-}, false); 
+}, false);
+```
+# 判断是不是微信[太平洋保险公司页面]
+```javascript
+function isWeiXin(){
+    var ua = window.navigator.userAgent.toLowerCase();
+    if(ua.match(/MicroMessenger/i) == 'micromessenger'){
+        return true;
+    }else{
+        return false;
+    }
+}
+```
+# 是不是微博
+```javascript
+function isWeibo()
+{
+    var ua =  navigator.userAgent;
+    return (ua.indexOf("Weibo")>-1&&ua.indexOf("_weibo_")>-1);
+}
+```
+# APP下载[分android下载和ios下载]
+```javascript
+var browser = {
+	versions: function() {
+		var u = navigator.userAgent;
+		return {//移动终端浏览器版本信息
+			ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+			iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者QQHD浏览器
+			iPad: u.indexOf('iPad') > -1, //是否iPad
+			android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+		};
+	}(),
+	language: (navigator.browserLanguage || navigator.language).toLowerCase()
+}
+
+var isWeiXinFlag = isWeiXin();
+$("#android_download").click(function(){
+	if (browser.versions.android) {
+		if (isWeiXinFlag||isWeibo()) {
+			cpic.alert("微信或者微博中，请点击右上角，选择在浏览器中打开下载。");
+		} else {
+			window.location.href = android_apk_url;
+		}
+	} else {
+		cpic.alert("该设备不支持安卓下载");
+	}
+});
+
+$("#ios_download").click(function(){
+	if (browser.versions.ios || browser.versions.iPhone || browser.versions.iPad) {
+		if (isWeiXinFlag||isWeibo()) {
+			cpic.alert("微信或者微博中，请点击右上角，选择在浏览器中打开下载。");
+		}else {
+			window.location.href = ios_url;
+		}
+	} else {
+		cpic.alert("该设备不支持IOS下载");
+	}
+});
 ```
