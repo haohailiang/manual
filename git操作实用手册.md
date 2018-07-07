@@ -18,6 +18,10 @@ git config user.email
 ```
 git init
 ```
+## 修改远程仓库的位置
+```
+git remote set-url origin xxx.git
+```
 ## 新建文件并查看文件的状态
 ```
 touch git-sample.js
