@@ -231,6 +231,11 @@ git show 9b0ebe3c96bc2238ac84a6f322fbd64d2b169033
 git log --pretty=oneline 文件名
 git log --pretty=oneline cloudsun-center/src/main/webapp/WEB-INF/views/center/usercenter/home.jsp
 ```
+## 快速学习git操作的网站
+```
+https://learngitbranching.js.org/?demo
+https://learngitbranching.js.org/?NODEMO
+```
 ## 搭建个人站点
 htts://haohailiang.github.io
 ### 搭建步骤
