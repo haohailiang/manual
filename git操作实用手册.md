@@ -126,6 +126,32 @@ git checkout master
 git merge --no-ff -m "保留dev和master分支的合并信息" dev
 git log --oneline --graph
 ```
+## 合并分支 cherry-pick
+* dev分支已经开发好  
+* 切换到主分支  
+* 将dev分支中的指定的几次版本修改合并过来  
+注:就是只合并有用的指定的几次提交  
+```
+git checkout master
+git merge dev
+
+# current branch master
+git checkout -b branch_a
+touch a.md
+git add .
+git commit -m 'add a.md file'
+touch b.md
+git add .
+git commit -m 'add b.md file'
+git log --pretty=oneline
+0921ed0d2554fa36cee0261c4ccb76ac3965ba0c (HEAD -> branch_a) add b.md file
+aa4d3a6c9a7e20a46b370b52fe81708241e35b91 add a.md file
+12bd6df6b74a8b8273d2bb30c75d93794169124b (origin/master, origin/HEAD) Initial commit
+git checkout master
+# current branch branch_a
+git cherry-pick aa4d3a6c9a7e20a46b370b52fe81708241e35b91
+# 分支 branch_a 将只有提交的 a.md 文件, b.md 文件没有
+```
 ## 分支冲突
 2个分支同时修改相同的文件再合并会产生冲突  
 去掉冲突信息重新提交下就可以了
