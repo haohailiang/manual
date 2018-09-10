@@ -193,6 +193,8 @@ git remote rm origin
 git remote add origin https://github.com/haohailiang/git-demo.git
 git push -u origin master     # 推送本地 master 去 origin
 git push -u origin dev        # 推送本地 dev  去 origin
+# gitee
+git push --set-upstream origin branch-a 远程没有这个分支,连带创建远程分支+推送
 ```
 ## 设置用户名-密码
 ```
