@@ -249,6 +249,11 @@ git remote show origin
 ```
 git branch -a
 ```
+## 清理本地-删除的远程分支的引用
+远程仓库删除的分支，本地还保留着远程分支的引用，运行如下命令，本地保留的引用将会删除
+```
+git remote prune origin
+```
 ## 切换到远程分支
 ```
 git clone master分支
