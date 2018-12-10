@@ -108,6 +108,7 @@ git branch    # 当前所处分支的查看
 git checkout master # 切换到主分支
 git checkout -b name-of-new-branch current-branch [current-branch 默认就是当前分支]
 git checkout -b name-of-new-branch 169d2dc [从指定的分支名称获取分支]
+git pull origin release/pc_v181210 # 从指定远程分支拉代码，默认情况拉代码会失效
 ```
 ## 在分支上修改并提交
 "-am": add 所有改变 并直接 commit
