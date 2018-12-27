@@ -71,6 +71,10 @@ git add 2.md
 git commit --amend --no-edit    # "--no-edit": 不编辑, 直接合并到上一个 commit
 git log --oneline
 ```
+## 修改最后一次提交的注释
+```
+git commit --amend
+```
 ## reset到add之前(staged状态-->>unstaged状态)
 ```
 git add 1.md
