@@ -45,6 +45,7 @@ git commit -m "第一次提交"
 git log
 git log --oneline
 git log --oneline -10 [显示10条数据]
+git log --author "haohailiang" [查看某个用户提交的日志]
 ```
 ## 查看当前的文档和之前提交文档的不同
 ```
