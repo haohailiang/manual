@@ -45,6 +45,7 @@ git commit -m "第一次提交"
 git log
 git log --oneline
 git log --oneline -10 [显示10条数据]
+git log --author "haohailiang" [查看某个用户提交的日志]
 ```
 ## 查看当前的文档和之前提交文档的不同
 ```
@@ -70,6 +71,10 @@ touch 2.md
 git add 2.md
 git commit --amend --no-edit    # "--no-edit": 不编辑, 直接合并到上一个 commit
 git log --oneline
+```
+## 修改最后一次提交的注释
+```
+git commit --amend
 ```
 ## reset到add之前(staged状态-->>unstaged状态)
 ```
@@ -108,6 +113,7 @@ git branch    # 当前所处分支的查看
 git checkout master # 切换到主分支
 git checkout -b name-of-new-branch current-branch [current-branch 默认就是当前分支]
 git checkout -b name-of-new-branch 169d2dc [从指定的分支名称获取分支]
+git pull origin release/pc_v181210 # 从指定远程分支拉代码，默认情况拉代码会失效
 ```
 ## 在分支上修改并提交
 "-am": add 所有改变 并直接 commit
@@ -248,6 +254,11 @@ git remote show origin
 ## 查看远程仓库的所有分支
 ```
 git branch -a
+```
+## 清理本地-删除的远程分支的引用
+远程仓库删除的分支，本地还保留着远程分支的引用，运行如下命令，本地保留的引用将会删除
+```
+git remote prune origin
 ```
 ## 切换到远程分支
 ```
