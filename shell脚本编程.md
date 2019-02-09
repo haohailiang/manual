@@ -623,23 +623,128 @@ find [路径] [选项] [操作]
 | 选项 | 含义                     |
 | ------ | -------------------------- |
 | -name | 根据文件名查找 |
+| -iname | 根据文件名查找，不区分大小写 |
 | -perm | 根据文件权限查找 |
 | -prune | 该选项可以排除某些查找目录 |
 | -user | 根据文件属主查找 |
 | -group | 根据文件属组查找 |
-| -mtime -n / +n | 根据文件更改时间查找 |
+| -mtime -n / +n | 根据文件更改时间查找[n单位为天] |
+| -nogroup | 查找无有效属组的文件 |
+| -nouser | 查找无有效属主的文件 |
+| -newer file1 ! file2 | 查找更改时间比file1新但比file2旧IDE文件 |
+| -type | 按文件类型查找 |
+| -size -n / +n | 按文件大小查找-n是大于n的文件 |
+| -mindepth n | 从n级子目录开始搜索 |
+| -maxdepth n | 最多搜索到n级子目录 |
+`-name: ` find /etc -name .conf    
+`-iname: ` find /etc -iname namespace  
+`-perm: ` find -perm 664  
+`-prune: ` 通常和-path一起使用，用于将特定目录排除在搜索条件之外  
+```
+# 查找当前目录下所有普通文件，但排除test目录
+find . -path ./
+```
+`-user: ` find . -user root  
+`-size: ` find /etc -size +1M  
+`-nogroup:` 用户组解散了，删除了，这个就是无有效组事件  
+### grep
+* grep [option] [pattern] [file1, file2...]
+* command | grep [option] [pattern]
+| 选项 | 类型                                    |
+| ---- | ----------------------------------------- |
+| -v   | 不显示匹配行信息 |
+| -i   | 搜索时忽略大小写 |
+| -n   | 显示行号 |
+| -r   | 递归搜索 |
+| -E   | 支持扩展正则表达式 |
+| -F   | 不按正则表达式匹配,按照字符串字面意思匹配 |
+| -c   | 只显示匹配行总数 |
+| -w   | 匹配整词 |
+| -x   | 匹配整行 |
+| -l   | 只显示文件名,不显示内容 |
+| -s   | 不显示错误信息 |
+```
+# 查找bbc.sh文件中的add文本
+grep add bbc.sh
 
+# 反选，除了匹配的不显示，其他行都显示
+grep -v add bbc.sh
 
+# 忽略大小写匹配
+grep -vi ADD bbc.sh 
 
+# 显示行号
+grep -n add bbc.sh 
 
+# 使用正则表达式
+grep -n "ad*" bbc.sh 
 
+# 强悍的正则表达式
+grep -nE "add|reduce" bbc.sh 
 
+# 按文本字符串匹配，不按正则
+grep -nF "add|reduce" bbc.sh 
 
+# 多个文件进行查找
+grep -n "add" base_function.lib bbc.sh 
 
+# 递归搜索
+grep -r add
 
+# 只显示匹配行总数
+grep -c reduce bbc.sh   
 
+# 匹配整个单词
+grep -nw reduce bbc.sh
 
+# 匹配整行
+grep -nw "reduce 12 23" bbc.sh
+```
+### sed 
+stream editor, 流编辑器。对标准输出或文件逐行进行处理。
+### 语法
+* stdout | sed [option] "pattern command"
+* sed [option] "pattern command" file
+`tps: ` pattern对当前行模式的匹配
+### sed选项
+| 选项 | 类型                            |
+| ---- | --------------------------------- |
+| -n | 只打印模式匹配行 |
+| -e | 直接在命令行进行sed编辑,默认选项 |
+| -f | 编辑动作保存在文件中,指定文件执行 |
+| -r | 支持扩展正则表达式 |
+| -i | 直接修改文件内容 |
+```
+# 对每一行只打印输出
+# 每行输出双份，原行信息会输出，匹配信息再输出一下
+sed 'p' sed.txt 
 
+# 只打印模式匹配行
+sed -n 'p' sed.txt 
 
+# 包含HADOOP模式的打印出来
+sed -n '/HADOOP/p' sed.txt 
+
+# 匹配2种模式
+sed -n -e '/HADOOP/p' -e '/hadoop/p' sed.txt 
+```
+比较复杂的命令保存在文件中
+```
+# edit.sed 
+/HADOOP/p
+
+# command line
+sed -n -f edit.sed sed.txt
+
+# 支持扩展正则表达式
+sed -n -r  '/hadoop|HADOOP/p' sed.txt
+
+# 同时使用p就会把替换的内容输出出来，对源文件没有影响
+sed -n 's/love/like/g;p' sed.txt
+
+# 直接修改文件内容，匹配的会全部替换，都是全部替换
+sed -i 's/love/like/' sed.txt
+sed -i 's/love/like/g' sed.txt
+```
 
 
