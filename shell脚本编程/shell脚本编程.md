@@ -636,15 +636,17 @@ find [路径] [选项] [操作]
 | -size -n / +n | 按文件大小查找-n是大于n的文件 |
 | -mindepth n | 从n级子目录开始搜索 |
 | -maxdepth n | 最多搜索到n级子目录 |
-tps:  
+#### tps
 `-name: ` find /etc -name .conf    
 `-iname: ` find /etc -iname namespace  
 `-perm: ` find -perm 664  
 `-prune: ` 通常和-path一起使用，用于将特定目录排除在搜索条件之外  
+#### 代码
 ```
 # 查找当前目录下所有普通文件，但排除test目录
 find . -path ./
 ```
+#### tps
 `-user: ` find . -user root  
 `-size: ` find /etc -size +1M  
 `-nogroup:` 用户组解散了，删除了，这个就是无有效组事件  
