@@ -714,6 +714,20 @@ stream editor, 流编辑器。对标准输出或文件逐行进行处理。
 | -f | 编辑动作保存在文件中,指定文件执行 |
 | -r | 支持扩展正则表达式 |
 | -i | 直接修改文件内容 |
+### sed编辑命令
+| 类别 | 编辑命令 | 含义                            |
+| ---- | ------------ | --------------------------------- |
+| 查询 | p | 打印 |
+| 增加 | a | 行后追加 |
+| 增加 | i | 行前追加 |
+| 增加 | r | 外部文件读入,行后追加 |
+| 增加 | w | 匹配行写入外部文件 |
+| 删除 | d | 删除 |
+| 删除 | = | 显示行号 |
+| 修改 | s/old/new | 将行内第一个old替换为new |
+| 修改 | s/old/new/g | 将行内全部的old替换为new |
+| 修改 | s/old/new/2g | 将行内第2个开始到剩下所有符合条件的字符串替换 |
+| 修改 | s/old/new/ig | 将行内old全部替换为new,忽略大小写 |
 ```
 # 对每一行只打印输出
 # 每行输出双份，原行信息会输出，匹配信息再输出一下
@@ -727,6 +741,52 @@ sed -n '/HADOOP/p' sed.txt
 
 # 匹配2种模式
 sed -n -e '/HADOOP/p' -e '/hadoop/p' sed.txt 
+
+# 行后追加
+sed -i '/\/bin\/bash/a hahhahaha' passwd 
+
+# 以这2个匹配的表达式包括中间的行每行后边添加hahahaha
+sed -i '/^sync/,/^halt/a hahahaha' passwd 
+```
+把一个文件中的内容追加到后边
+```
+# list文件
+AAAAAAAAAAAAA
+BBBBBBBBBBBBB
+
+# 追加命令
+sed -i '/root/r list' passwd
+```
+符合要求的行导入到指定的文件
+```
+# nologin没有会自动创建
+sed '/\/sbin\/nologin/w nologin.txt' passwd 
+```
+替换
+```
+# /sbin/nologin全部替换为/SBIN/NOLOGIN
+sed -i 's/\/sbin\/nologin/\/SBIN\/NOLOGIN/g' passwd 
+
+# 只替换每行中的第1个
+sed -i 's/mail/MAIL/' passwd 
+
+# 将行内第2个开始到剩下所有符合条件的字符串替换
+sed -i 's/mail/MAIL/2g' passwd 
+
+# 忽略大小写
+sed -i 's/mail/少年/ig' passwd 
+
+# 只显示行号，其他的信息不显示
+sed -n '/rpc/=' passwd 
+
+# 一个.代表一个任意字符
+sed -i 's/HAD..P/hadoops/g' str.txt 
+
+# &代表匹配的前一个值
+sed -i 's/hadoops/H&H/g' str.txt 
+
+# \1代表匹配的括号里边的内容
+sed -i 's/\(hadoops\)/H\1H/g' str.txt 
 ```
 比较复杂的命令保存在文件中
 ```
@@ -746,5 +806,125 @@ sed -n 's/love/like/g;p' sed.txt
 sed -i 's/love/like/' sed.txt
 sed -i 's/love/like/g' sed.txt
 ```
+### pattern [经常使用]
+| 匹配模式                 | 含义                            |
+| ---------------------------- | --------------------------------- |
+| 10command | 匹配到第10行 |
+| 10,20command | 匹配从第10行开始，到第20行结束 |
+| 10,+5command | 匹配从第10行开始，到第16行结束 |
+| /pattern1/command | 匹配到pattern1的行 |
+| /pattern1/,/pattern2/command | 匹配到pattern1的行开始，到匹配到pattern2的行结束 |
+| 10,/pattern1/command | 匹配从第10行开始，到匹配到pattern1的行结束 |
+| /pattern1/,10command | 匹配到pattern1的行开始，到第10行匹配结束 |
+```
+sed -n "5,+3p" /etc/passwd 
+sed -n "/bash/p" /etc/passwd 
+sed -n "/^adm/p" /etc/passwd 
+sed -n "/^adm/,/^sync/p" /etc/passwd 
 
+# 删除源文件第1行
+sed -i '1d' passwd
 
+# 删除源文件第1行-第3行
+sed -i '1,3d' passwd
+
+# 删除匹配/sbin/nologin的行
+sed -i '/\/sbin\/nologin/d' passwd 
+```
+### 查询命令
+| 查询命令                 | 含义                            |
+| ---------------------------- | --------------------------------- |
+| 10p | 打印第10行 |
+| 10,20p | 打印第10行到第20行 |
+| 10,+5p | 打印第10行到第16行 |
+| /pattern1/p | 打印每行匹配到pattern1的行 |
+| /pattern1/,/pattern2/p | 打印匹配到pattern1的行直到匹配到pattern2的行 |
+| /pattern1/,10p | 打印匹配到pattern1的行直到第10行 |
+| 10,/pattern1/p | 打印第10行开始直到匹配到pattern1的行 |
+### sed查询例子
+```
+# 需求描述：  
+# 处理类似MySQL配置文件my.cnf的文本，示例如下：  
+# 编写脚本实现以下功能：输出文件有几个段，并且针对每个段可以统计配置参数总个数
+# 预想输出结果：
+# 1: client 2
+# 2: server 12
+# 3: mysqld 12
+# 4: mysqld_safe 7
+# 5: embedded 8
+# 6: mysqld-5.5 9
+
+# 中间处理步骤
+# 打印出所有的段字段，带中括号
+sed -n '/\[.*\]/p' my.cnf
+# 打印出所有的段字段
+sed -n '/\[.*\]/p' my.cnf | sed -e 's/\[//g' -e 's/\]//g'
+# 打印出server段的全部内容
+sed -n '/\[server\]/,/\[.*\]/p' my.cnf 
+# 去除空行和注释
+sed -n '/\[server\]/,/\[.*\]/p' my.cnf | grep -v ^# | grep -v ^$
+# 过滤掉段字段
+sed -n '/\[server\]/,/\[.*\]/p' my.cnf | grep -v ^# | grep -v ^$ | grep -v '\[.*\]'
+
+# 最佳实践代码
+#!/bin/bash
+#
+
+FILE_NAME=my.cnf
+
+function get_all_segments
+{
+	echo "`sed -n '/\[.*\]/p' $FILE_NAME  | sed -e 's/\[//g' -e 's/\]//g'`"
+}
+
+function count_items_in_segment
+{
+    items=`sed -n "/\[$1\]/,/\[.*\]/p" $FILE_NAME | grep -v "^#" | grep -v "^$" | grep -v "\[.*\]"`
+	
+	index=0
+	for item in $items
+	do
+		index=`expr $index + 1`
+	done
+
+	echo $index
+
+}
+
+number=0
+
+for segment in `get_all_segments`
+do
+	number=`expr $number + 1`
+	items_count=`count_items_in_segment $segment`
+	echo "$number: $segment  $items_count"
+done
+```
+### 删除命令
+| 查询命令                 | 含义                            |
+| ---------------------------- | --------------------------------- |
+| 10d | 删除第10行 |
+| 10,20d | 删除第10行到第20行 |
+| 10,+5d | 删除第10行到第16行 |
+| /pattern1/d | 删除每行匹配到pattern1的行 |
+| /pattern1/,/pattern2/d | 删除匹配到pattern1的行直到匹配到pattern2的行 |
+| /pattern1/,10d | 删除匹配到pattern1的行直到第10行 |
+| 10,/pattern1/d | 删除第10行开始直到匹配到pattern1的行 |
+```
+# 典型需求：
+# 1. 删除配置文件中的所注释行和空行
+sed -i '/^#/d;/^$/d' my.cnf
+sed -i '/[:blank:]*#/d' my.cnf
+# 2. 在配置文件中所有不以#开头的航前面添加*符号，注意：以#开头的行不添加
+sed -i 's/^[^#]/\*&/g' my.cnf 
+```
+### 修改命令
+| 修改命令                 | 含义                            |
+| ---------------------------- | --------------------------------- |
+| 1s/old/new | 替换第1行内容old为new |
+| 1,10s/old/new | 替换第1行到第10行的内容old为new |
+| 1,+5s/old/new | 替换第1行到+5行的内容old为new |
+| /pattern1/s/old/new/ | 替换匹配到pattern1的行内容old为new |
+| /pattern1/,/pattern2/s/old/new/ | 替换匹配到pattern1的行直到匹配到pattern2的所有行内容old为new |
+| /pattern1/, 10s/old/new/ | 替换匹配到pattern1的行到10行的所有行内容old为new |
+| 10,/pattern1/s/old/new/ | 替换第10行直到匹配到pattern1的所有行内容old为new |

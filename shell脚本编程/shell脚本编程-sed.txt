@@ -1,0 +1,177 @@
+sed的工作模式：  
+    sed是流编辑器，依据特定的匹配模式，对文本逐行匹配，并对匹配行做特殊处理  
+    命令格式： sed [option] "/pattern/command" file 
+    
+    pattern用法：
+    
+        1、LineNumber                                 ------------------直接指定行号
+           sed -n "17p" file                          打印file文件的第17行
+           
+        2、StartLine, EndLine                         ------------------指定起始行号和结束行号
+           sed -n "10,20p" file                       打印file文件的10到20行
+           
+        3、StartLine, +N                              ------------------直接起始行号，然后后面N行
+           sed -n "10,+5p" file                       打印file文件从第10行开始，往后面加5行的所
+           
+        4、/pattern1/                                 ------------------正则表达式匹配的行
+           sed -n "/^root/p" file                     打印file文件中以root开头的行
+        5、/pattern1/,/pattern2/                      ------------------匹配到pattern1的行开始，到匹配到pattern2的行结束
+           sed -n "/^ftp/,/^mail/p" file              打印file文件中第一个匹配到ftp开头的行，到第二个匹配到mail开头的行
+        6、LineNumber,/pattern1/                      ------------------从指定行号开始匹配，到匹配到patern1的行结束
+           sed -n "4,/^hdfs/p" file                   打印file文件中从第4行开始匹配，直到以hdfs开头的行结束
+        7、/pattern1/,LineNumber                      ------------------匹配到pattern1的行开始，到第10行匹配结束
+           sed -n "/root/,10p" file                   打印file文件中匹配root的行，直到10行结束
+           
+反向引用：
+   
+   &和\1                                               引用模式匹配到的整个字符串
+   sed "s/1..e/&r/g" file                             在file中搜索以1开头，然后跟两个任意字符，以e结尾的字符串TODO
+   sed "s/\(1..e\)/\1r/g" file                        和上面实现一样的功能，使用\1代表搜索到的字符串
+   上面2种方式实现了一样的功能，分别使用&和\1引用前面匹配到的整个字符串
+   两者区别在于&只能表示匹配到的完整字符串，只能引用整个字符串；而\1可以使用()对匹配的字符串
+   
+   例如：如果我们仅想要替换匹配到的字符串的一部分，name必须为\1这种方式，不能使用&
+   查找test.txt文件中以1开头，紧接着跟2个任意字符，再接一个e的字符串。将找到字符串中开头的
+   sed "s/1\(..e\)/L\1/g" test.txt
+   
+sed中引用变量时注意事项：
+  (1)、匹配模式中存在变量，则建议使用双引号
+  (2)、sed中需要引入自定义变量时，如果外面使用单引号，则自定义变量也必须使用单引号
+  
+  例子：脚本中使用变量进行替换时
+  ```
+  # replace.sh
+  old_str=hadoop
+  new_str=HADOOP
+
+  sed -i 's/'$old_str'/'$new_str'/g' str.txt
+  ```
+  
+  最佳实践：
+  ```
+  # replace.sh
+  old_str=hadoop
+  new_str=HADOOP
+
+  sed -i "s/$old_str/$new_str/g" str.txt
+  ```
+  
+  
+利用sed查找文件内容：
+
+        pattern种类：
+        
+            1. 8p
+            2. 8,10p
+            3. 8,+5p
+            4. /regexp/p
+            5. /regexp_1/,/regexp_2/p
+            6. 8,/regexp/p
+            7. /regexp/,8p
+        
+        1. 打印/etc/passwd中第20行的内容
+            sed -n '20p' /etc/passwd
+        2. 打印/etc/passwd中从第8行开始，到第15行结束的内容
+            sed -n '8,15p' /etc/passwd
+        3. 打印/etc/passwd中从第8行开始，然后+5行结束的内容
+            sed -n '8,+5p' /etc/passwd
+        4. 打印/etc/passwd中开头匹配hdfs字符串的内容
+            sed -n '/^hdfs/p' /etc/passwd
+        5. 打印/etc/passwd中开头为root的行开始，到开头为hdfs的行结束的内容
+            sed -n '/^root/,/^hdfs/p' /etc/passwd
+        6. 打印/etc/passwd中第8行开始，到含有/sbin/nologin的内容的行结束内容
+            sed -n '8,/\/sbin\/nologin/p' /etc/passwd
+        7. 打印/etc/passwd中第一个包含/bin/bash内容的行开始，到第5行结束的内容
+            sed -n '/\/bin\/bash/,5p' /etc/passwd
+            
+            
+利用sed删除文件内容：
+
+        pattern种类：
+        
+            1. 1d
+            2. 8,10d
+            3. 8,+5d
+            4. /regexp/d
+            5. /regexp_1/,/regexp_2/d
+            6. /regexp/,8d
+            7. 8,/regexp/d
+            
+            -i不会改变源文件，只是把删除后的内容显示到终端 [错误言论]
+        
+        1. 删除/etc/passwd中第15行
+            sed -i '15d' passwd
+        2. 删除/etc/passwd中从第8行开始，到第14行所有的内容
+            sed -i '8,14d' passwd
+        3. 删除/etc/passwd中不用登陆的用户，筛选条件(/sbin/nologin)
+            sed -i '/\/sbin\/nologin/d' passwd
+        4. 删除/etc/passwd中以mail开头的行，到以yarn开头的行的内容
+            sed -i '/^mail/,/^yarn/d' passwd
+        5. 删除/etc/passwd中第一个不能登陆的用户，到第13行所有内容
+            sed -i '/\/sbin\/nologin/,13d' passwd [这个可能会循环删除]
+        6. 删除/etc/passwd中第5行到以ftp开头的所有行的内容
+            sed -i '5,/^ftp/d' /etc/passwd
+        7. 删除/etc/passwd中以yarn开头的行到最后行的所有内容
+        
+            
+sed修改文件内容
+    
+    1. 1s/old/new/ 
+    2. 5,10s/old/new/
+    3. 10,+10s/old/new/
+    4. /pattern1/s/old/new/
+    5. /pattern1/,/pattern2/s/old/new/
+    6. /pattern1/,20s/old/new/
+    7. 15,/pattern1/s/old/new/
+    
+    
+    例子：
+    1. 修改/etc/passwd中第1行中第1个root为ROOT
+        sed -i '1s/root/ROOT/' passwd 
+    2. 修改/etc/passwd中第5行到第10行中所有的/sbin/nologin为/bin/bash
+        sed -i '5,10s/\/sbin\/nologin/\/bin\/bash/g' passwd
+    3. 修改/etc/passwd中匹配到/sbin/nologin的行，将匹配到行中的login改为大写的LOGIN
+        sed -i '/\/sbin\/nologin/s/login/LOGIN/' passwd 
+    4. 修改/etc/passwd中从匹配到root开头的行，到撇配到行中包含mail的所有行。修改为将这些所有匹配到的行中的bin修改为HADOOP
+        sed -i '/^root/,/mail/s/bin/HADOOP/g' passwd 
+    5. 修改/etc/passwd中从匹配到root开头的行，到第15行中的所有行，修改内容为将这些行中的nologin修改为SPARK
+        sed -i '/^root/,15s/nologin/SPARK/g' passwd
+    6. 修改/etc/passwd中从第15行开始，到匹配到以yarn开头的所有行，修改内容为将这些行中的bin换为BIN
+    
+    
+sed追加用法总结
+
+     1. a                      在匹配行后面追加
+     2. i                      在匹配行前面追加
+     3. r                      将文件内容追加到匹配行后面
+     4. w                      将匹配行写入指定的文件
+     
+     
+     例子：
+     1. a
+        (1). passwd文件第10行后面追加"Add Line Behind"
+            sed -i '10a Add Line Behind' passwd 
+        (2). passwd文件第10行到第20行，每一行后面都追加"Test Line Behind"
+            sed -i '10,20a Test Line Behind' passwd
+        (3). passwd文件匹配到/bin/bash的行后面追加"Insert Line For /bin/bash Behind"
+            sed -i '/\/bin\/bash/a Insert Line For /bin/bash Behind' passwd
+     2. i
+        (1). passwd文件匹配到以yarn开头的行，在匹配行前面追加"Add Line Before"
+            sed -i '/^yarn/i Add Line Before' passwd
+            sed -i '/^sync/i ==============' passwd 
+        (2). passwd文件每一行前面都追加"Insert Line Before Every Line"
+            sed -i 'i Insert Line Before Every Line' passwd 
+            sed -i 'i ==============' passwd 
+  
+     3. r
+        (1). 将/etc/fstab文件的内容追加到passwd文件的第20行后面
+            sed -i '20r fstab' passwd 
+        (2). 将/etc/inittab文件内容追加到passwd文件匹配/sbin/nologin行的后面
+            sed -i '/\/bin\/bash/r fstab' passwd
+        (3). 将/etc/vconsole.conf文件内容追加到passwd文件中特定行后面，匹配以ftp开头的行，到第18行的所有行
+        sed -i '/^ftp/,18r fstab' passwd
+     4. w
+        (1). 将passwd文件匹配到/bin/bash的行追加到sed.txt文件中
+            sed -i '/\/bin\/bash/w sed.txt' passwd
+        (2). 将passwd文件从第10行开始，到匹配到hdfs开头的所有行内容追加到sed.txt 
+            sed -i '10,/^hdfs/w sed.txt' passwd
