@@ -703,6 +703,9 @@ grep -nw reduce bbc.sh
 
 # 匹配整行
 grep -nw "reduce 12 23" bbc.sh
+
+# 在当前目录下查找包含字符串的文件, 递归查找，显示行号和目录
+grep -rn xiaopang
 ```
 ### sed 
 stream editor, 流编辑器。对标准输出或文件逐行进行处理。
