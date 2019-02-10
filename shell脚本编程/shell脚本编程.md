@@ -651,8 +651,9 @@ find . -path ./
 `-size: ` find /etc -size +1M  
 `-nogroup:` 用户组解散了，删除了，这个就是无有效组事件  
 ### grep
-* grep [option] [pattern] [file1, file2...]
-* command | grep [option] [pattern]
+* grep [option] [pattern] [file1, file2...]  
+* command | grep [option] [pattern]  
+### grep参数
 | 选项 | 类型                                    |
 | ---- | ----------------------------------------- |
 | -v   | 不显示匹配行信息 |
