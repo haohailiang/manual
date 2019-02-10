@@ -636,6 +636,7 @@ find [路径] [选项] [操作]
 | -size -n / +n | 按文件大小查找-n是大于n的文件 |
 | -mindepth n | 从n级子目录开始搜索 |
 | -maxdepth n | 最多搜索到n级子目录 |
+tps:  
 `-name: ` find /etc -name .conf    
 `-iname: ` find /etc -iname namespace  
 `-perm: ` find -perm 664  
