@@ -22,6 +22,15 @@ git init
 ```
 git remote set-url origin xxx.git
 ```
+### 修改本地分支和远程分支的名称
+```
+# Rename branch locally 
+git branch -m old_branch new_branch 
+# Delete the old branch
+git push origin :old_branch  
+# Push the new branch, set local branch to track the new remote
+git push --set-upstream origin new_branch 
+```
 ## 新建文件并查看文件的状态
 ```
 touch git-sample.js
