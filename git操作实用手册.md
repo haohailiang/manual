@@ -187,7 +187,7 @@ git commit -am "解决冲突"
 * 分支A借用分支B修改的新内容
 ```
 git branch -D bran_A   # 删除分支
-
+git push origin --delete bran_A # 删除远程分支
 ```
 ## 临时修改 (stash)
 ```
