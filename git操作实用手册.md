@@ -314,6 +314,10 @@ git show 9b0ebe3c96bc2238ac84a6f322fbd64d2b169033
 git log --pretty=oneline 文件名
 git log --pretty=oneline cloudsun-center/src/main/webapp/WEB-INF/views/center/usercenter/home.jsp
 ```
+## 查看分支之间的关系
+```
+git log --graph --decorate
+```
 ## 快速学习git操作的网站
 ```
 https://learngitbranching.js.org/?demo
