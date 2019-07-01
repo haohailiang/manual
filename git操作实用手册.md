@@ -189,6 +189,10 @@ git commit -am "解决冲突"
 git branch -D bran_A   # 删除分支
 git push origin --delete bran_A # 删除远程分支
 ```
+## 删除远程分支
+```
+git push origin --delete dev
+```
 ## 临时修改 (stash)
 ```
 # 当前工作空间为dev
