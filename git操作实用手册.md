@@ -22,6 +22,8 @@ git init
 ```
 git remote set-url origin xxx.git
 ```
+## 本地创建一个项目推送到远程仓库
+[推送新项目](https://www.jianshu.com/p/ed8a8962e096)
 ### 修改本地分支和远程分支的名称
 ```
 # Rename branch locally 
