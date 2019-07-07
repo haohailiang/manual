@@ -33,6 +33,12 @@ git push origin :old_branch
 # Push the new branch, set local branch to track the new remote
 git push --set-upstream origin new_branch 
 ```
+## 查看远程仓库的地址
+```
+git remote -v
+#origin	git@gitee.com:username/test.git (fetch)
+#origin	git@gitee.com:username/test.git (push)
+```
 ## 新建文件并查看文件的状态
 ```
 touch git-sample.js
