@@ -173,7 +173,7 @@ aa4d3a6c9a7e20a46b370b52fe81708241e35b91 add a.md file
 12bd6df6b74a8b8273d2bb30c75d93794169124b (origin/master, origin/HEAD) Initial commit
 git checkout master
 # current branch branch_a
-git cherry-pick commitId commitId
+git cherry-pick commitId1 commitId2
 # 分支 branch_a 将只有提交的 a.md 文件, b.md 文件没有
 ```
 ## 分支冲突
