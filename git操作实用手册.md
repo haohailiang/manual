@@ -326,6 +326,16 @@ git show 9b0ebe3c96bc2238ac84a6f322fbd64d2b169033
 git log --pretty=oneline 文件名
 git log --pretty=oneline cloudsun-center/src/main/webapp/WEB-INF/views/center/usercenter/home.jsp
 ```
+## 太多warning和error(bypass)
+```
+git commit -m '
+branchname -> feat:
+1. line1 comment
+2. line2 comment
+3. line3 comment
+' --no-verify
+
+```
 ## 查看分支之间的关系
 ```
 git log --graph --decorate
