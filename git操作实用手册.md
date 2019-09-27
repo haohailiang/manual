@@ -22,6 +22,17 @@ git init
 ```
 git remote set-url origin xxx.git
 ```
+## 迁移git到新的仓库，并且保存以前提交的记录
+[from]<https://blog.csdn.net/EthanCo/article/details/84400116>
+```
+# 方式一
+git clone --bare git://192.168.10.XX/git_repo/project_name.git
+cd project_name.git
+git push --mirror git@192.168.20.XX/path/to/path/new_project_name.git
+# 方式二
+git remote set-url origin remote_git_address
+git push  
+```
 ## 本地创建一个项目推送到远程仓库
 [推送新项目](https://www.jianshu.com/p/ed8a8962e096)
 ### 修改本地分支和远程分支的名称
