@@ -1,4 +1,15 @@
 less实用语法、less常用工具方法和API快速查询手册
+## 内联样式和外联样式　
+```
+<style type="text/less">
+  // less 代码
+</style>
+<link rel="stylesheet/less" type="text/css" href="文件.less"/>
+```
+## 在浏览器中调试的方法
+```
+http://c7sky.com/chrome-devtools-workspace.html
+```
 ## 变量
 ```less
 @test_width:300px;
