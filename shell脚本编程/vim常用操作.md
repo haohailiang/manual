@@ -16,3 +16,7 @@
 | d | 全部删除 |
 | 2,3d | 2行到3行删除 |
 | 39:53> | 39行到53行批量缩进 |
+## 当前目录及子目录查找name为node_modules并删除
+```
+find . -name node_modules |xargs rm -rf
+```
