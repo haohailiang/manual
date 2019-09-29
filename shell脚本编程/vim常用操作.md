@@ -16,9 +16,22 @@
 | dG | 全部删除 |
 | 2,3d | 2行到3行删除 |
 | 39:53> | 39行到53行批量缩进 |
+| ctrl - f | 向上滚动一屏 |
+| ctrl - b | 向下滚动一屏 |
+| ctrl - u | 向上滚动半屏 |
+| ctrl - d | 向下滚动半屏 |
+| u | 撤回 |
+| ctrl + r | 重做撤回的操作 |
+| zz | 让光标所在的行居屏幕中央 |
+| zt | 让光标所在的行居屏幕最上一行 |
+| zb | 让光标所在的行居屏幕最下一行 |
 ## 当前目录及子目录查找name为node_modules并删除
 ```
 find . -name node_modules |xargs rm -rf
+```
+## 查找某个目录下包含class的字符串
+```
+find .| xargs grep -ri "class" 
 ```
 ## 文件按时间排序
 ```
@@ -38,4 +51,11 @@ lsof -i tcp:3000
 ## 杀死进程
 ```
 sudo kill -9 PID号
+```
+## 搜索某个关键字
+```
+set hlsearch
+命令行
+	/字符串
+	查找下一个 n
 ```
