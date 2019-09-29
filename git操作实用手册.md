@@ -33,6 +33,11 @@ git push --mirror git@192.168.20.XX/path/to/path/new_project_name.git
 git remote set-url origin remote_git_address
 git push  
 ```
+## https提交方法修改为ssh免密
+```
+subl .git/config 
+# url修改为ssh的方式
+```
 ## 本地创建一个项目推送到远程仓库
 [推送新项目](https://www.jianshu.com/p/ed8a8962e096)
 ### 修改本地分支和远程分支的名称
