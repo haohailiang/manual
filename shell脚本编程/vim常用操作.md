@@ -27,3 +27,15 @@ ls -lt
 # 时间从前到后[ltr: list time reverse]
 ls -ltr 
 ```
+## 除什么外全部删除
+```
+rm -rf !(file1|file2) 
+```
+## 端口占用情况
+```
+lsof -i tcp:3000
+```
+## 杀死进程
+```
+sudo kill -9 PID号
+```
