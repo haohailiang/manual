@@ -1,6 +1,6 @@
 less实用语法、less常用工具方法和API快速查询手册
 ## 内联样式和外联样式　
-```
+```html
 <style type="text/less">
   // less 代码
 </style>
