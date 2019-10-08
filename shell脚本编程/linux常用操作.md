@@ -48,6 +48,14 @@ rm -rf !(file1|file2)
 ```
 mkdir -p code/string
 ```
+## 查看前2行
+```
+head -n 2 package.json 
+```
+## 查看末尾2行
+```
+tail -n 2 package.json
+```
 ## 端口占用情况
 ```
 lsof -i tcp:3000
