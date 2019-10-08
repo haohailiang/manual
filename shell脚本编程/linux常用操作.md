@@ -44,6 +44,10 @@ ls -ltr
 ```
 rm -rf !(file1|file2) 
 ```
+## 创建双层目录
+```
+mkdir -p code/string
+```
 ## 端口占用情况
 ```
 lsof -i tcp:3000
