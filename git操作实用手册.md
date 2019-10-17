@@ -83,6 +83,7 @@ git log --author "haohailiang" [查看某个用户提交的日志]
 ## 查看当前的文档和之前提交文档的不同
 ```
 git diff
+git diff file1.md
 ```
 ## 文档提交到(git add .)暂存区后查看不同
 ```
