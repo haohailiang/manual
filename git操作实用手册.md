@@ -316,6 +316,7 @@ git pull
 
 # checkout远程的dev分支，在本地起名为dev分支，并切换到本地的dev分支(一步到位的方法)
 git checkout -b dev origin/dev
+git clone -b mac https://github.com/xxx.git
 ```
 ## 重命名本地分支
 ```
