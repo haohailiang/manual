@@ -80,6 +80,10 @@ git log --oneline
 git log --oneline -10 [显示10条数据]
 git log --author "haohailiang" [查看某个用户提交的日志]
 ```
+## 把所有的日志输出到一个文件当中
+```
+git --no-pager log > ./log.txt
+```
 ## 查看当前的文档和之前提交文档的不同
 ```
 git diff
