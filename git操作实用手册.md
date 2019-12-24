@@ -354,6 +354,8 @@ git show 9b0ebe3c96bc2238ac84a6f322fbd64d2b169033
 git log --pretty=oneline 文件名
 git log --pretty=oneline cloudsun-center/src/main/webapp/WEB-INF/views/center/usercenter/home.jsp
 ```
+## 代码统计
+[各种代码统计](https://www.cnblogs.com/chenzhenfj/p/11249164.html)
 ## 太多warning和error(bypass)
 ```
 git commit -m '
