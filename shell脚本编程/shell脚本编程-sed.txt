@@ -54,6 +54,8 @@ sed中引用变量时注意事项：
   new_str=HADOOP
 
   sed -i "s/$old_str/$new_str/g" str.txt
+  # mac
+  sed -i "" "s/$old_str/$new_str/g" str.txt
   ```
   
   
