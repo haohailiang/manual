@@ -369,6 +369,7 @@ branchname -> feat:
 ## 查看分支之间的关系
 ```
 git log --graph --decorate
+git log --graph --pretty=oneline --abbrev-commit
 ```
 ## 快速学习git操作的网站
 ```
