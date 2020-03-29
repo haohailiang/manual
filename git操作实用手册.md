@@ -371,6 +371,10 @@ branchname -> feat:
 git log --graph --decorate
 git log --graph --pretty=oneline --abbrev-commit
 ```
+## 查看分支创建时间
+```
+git reflog show --date=iso <branch name>
+```
 ## 快速学习git操作的网站
 ```
 https://learngitbranching.js.org/?demo
