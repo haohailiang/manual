@@ -16,6 +16,7 @@ upstream  https://github.com/originalowner/original-project.git (push)
 ## 更新
 ```
 git fetch upstream
+git pull upstream
 ```
 ## 将 upstream 仓库的 master 分支合并到本地的当前分支
 ```
