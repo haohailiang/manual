@@ -1,5 +1,28 @@
 根据莫烦python笔记整理实用
 
+## 添加源仓库地址
+```
+git remote add upstream https://github.com/originalowner/original-project.git
+```
+## 验证添加结果
+```
+git remote -v
+# 行如下
+origin  https://github.com/yourusername/forked-project.git (fetch)
+origin  https://github.com/yourusername/forked-project.git (push)
+upstream  https://github.com/originalowner/original-project.git (fetch)
+upstream  https://github.com/originalowner/original-project.git (push)
+```
+## 更新
+```
+git fetch upstream
+```
+## 将 upstream 仓库的 master 分支合并到本地的当前分支
+```
+# 在 fetch 之后进行合并操作
+git merge upstream/master
+```
+
 ## 设置用户名/Email
 ```
 git config --global user.name "haohailiang"
@@ -129,6 +152,27 @@ git reset --hard HEAD
 git reset --hard HEAD^
 git reset --hard HEAD~1
 git reset --hard 5c5730d
+```
+## 回滚
+git revert 会创建一个新的提交，这个提交的内容是撤销指定提交所做的修改。与 git reset 不同，git revert 不会删除历史提交，而是通过新提交来抵消之前提交的影响，适合在公共分支上使用
+```
+# 撤销指定提交，创建一个新的提交来抵消该提交的修改
+git revert 123abc
+```
+### 回滚多个提交值
+按照从新到旧的顺序依次执行 git revert 命令来撤销每个提交。
+```
+# 假设要撤销提交 A、B、C，先撤销最新的提交 A
+git revert <提交 A 的哈希值>
+# 再撤销提交 B
+git revert <提交 B 的哈希值>
+# 最后撤销提交 C
+git revert <提交 C 的哈希值>
+```
+### 回滚是连续的
+```
+# 撤销从提交 A 到提交 C 的所有提交（包含 A 和 C）
+git revert <提交 A 的哈希值>..<提交 C 的哈希值>
 ```
 ## 再会到现在记录查看
 站在过去, 想回到现在, 记录的查看
